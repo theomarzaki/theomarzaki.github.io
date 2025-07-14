@@ -1,3 +1,4 @@
+ta
 matplotlib==3.10.0
 matplotlib-inline==0.1.7
 multitasking==0.0.11
@@ -7,5 +8,4 @@ pyarrow==18.1.0
 scipy==1.15.1
 setuptools==75.8.0
 streamlit==1.41.1
-TA-Lib==0.6.0
 yfinance==0.2.51
