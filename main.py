@@ -1,9 +1,11 @@
 from decision.score_based import verdict
 import ticker
 
-TICKERS = ["XRP-USD", "BTC-USD", "ETH-USD", "SOL-USD"]
-KRAKEN_TICKERS = ["XRPUSD", "XBTUSD", "ETHUSD", "SOLUSD"]
+# TICKERS = ["XRP-USD", "BTC-USD", "ETH-USD", "SOL-USD"]
+# KRAKEN_TICKERS = ["XRPUSD", "XBTUSD", "ETHUSD", "SOLUSD"]
 
+TICKERS = ["BTC-USD"]
+KRAKEN_TICKERS = ["XBTUSD"]
 
 if __name__ == "__main__":
     for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):

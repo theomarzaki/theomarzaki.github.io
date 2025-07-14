@@ -1,13 +1,28 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 
-# Load data
-# preds = pd.read_csv("data/predictions.csv")
-# prices = pd.read_csv("data/raw_data.csv")
+# Load Data
 
-st.title("Bitcoin Price Prediction vs Actual")
+technical_indicators = pd.read_csv('plotting/technical_indicators.csv')
+
+st.title('Technical Indicators for BTC')
+
+fig, ax = plt.subplots()
+ax.plot(technical_indicators['Open'], label='Open')
+ax.plot(technical_indicators['Close'], label='Close')
+ax.plot(technical_indicators['High'], label='High')
+ax.plot(technical_indicators['SMA_20'], label='SMA')
+ax.plot(technical_indicators['EMA_20'], label='EMA')
+ax.plot(technical_indicators['RSI_14'], label='RSI')
+ax.plot(technical_indicators['hband'], label='High Band')
+ax.plot(technical_indicators['lband'], label='Low Band')
+ax.legend()
+st.pyplot(fig)
+
 
 # fig, ax = plt.subplots()
 # ax.plot(prices['date'], prices['price'], label='Actual')
@@ -15,4 +30,4 @@ st.title("Bitcoin Price Prediction vs Actual")
 # ax.legend()
 # st.pyplot(fig)
 
-st.subheader("PnL & Metrics")
+# st.subheader("PnL & Metrics")

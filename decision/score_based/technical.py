@@ -14,11 +14,11 @@ def calculate_scores(df):
     df['Score'] += np.where(df['RSI_14'] < 30, 1, np.where(df['RSI_14'] > 70, -1, 0))
 
     # Bollinger Bands
-    df['Score'] += np.where(df['Close'] < df['BBL_20_2.0'], 1,
-                            np.where(df['Close'] > df['BBU_20_2.0'], -1, 0))
+    df['Score'] += np.where(df['Close'] < df['lband'], 1,
+                            np.where(df['Close'] > df['hband'], -1, 0))
 
     # MACD
-    df['Score'] += np.where(df['MACD_12_26_9'] > df['MACDs_12_26_9'], 1, -1)
+    df['Score'] += np.where(df['MACD_12_26'] > df['MACD_sign_12_26'], 1, -1)
 
     # OBV
     df['OBV_Trend'] = df['OBV'].diff().apply(lambda x: 1 if x > 0 else -1)

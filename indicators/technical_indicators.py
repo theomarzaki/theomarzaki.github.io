@@ -1,5 +1,6 @@
 import pandas as pd
-import pandas_ta as ta
+# import pandas_ta as ta
+import ta
 
 
 class TechnicalIndicators():
@@ -10,42 +11,42 @@ class TechnicalIndicators():
 
     # Function to calculate Moving Averages (SMA and EMA)
     def calculate_moving_averages(self, df, period=20):
-        df[f'SMA_{period}'] = ta.sma(df['Close'], length=period)
-        df[f'EMA_{period}'] = ta.ema(df['Close'], length=period)
+        df[f'SMA_{period}'] = ta.trend.SMAIndicator(df['Close'], window=period).sma_indicator()
+        df[f'EMA_{period}'] = ta.trend.EMAIndicator(df['Close'], window=period).ema_indicator()
         return df
 
     # Function to calculate Relative Strength Index (RSI)
     def calculate_rsi(self, df, period=14):
-        df[f'RSI_{period}'] = ta.rsi(df['Close'], length=period)
+        df[f'RSI_{period}'] = ta.momentum.RSIIndicator(df['Close'], window=period).rsi()
         return df
 
     # Function to calculate Bollinger Bands
     def calculate_bollinger_bands(self, df, period=20, std_dev=2):
-        bbands = ta.bbands(df['Close'], length=period, std=std_dev)
-        df = pd.concat([df, bbands], axis=1)
+        bbands = ta.volatility.BollingerBands(df['Close'], window=period, window_dev=std_dev)
+        df = pd.concat([df, bbands.bollinger_hband(), bbands.bollinger_lband()], axis=1)
         return df
 
     # Function to calculate MACD
     def calculate_macd(self, df, fast_period=12, slow_period=26, signal_period=9):
-        macd = ta.macd(df['Close'], fast=fast_period, slow=slow_period, signal=signal_period)
-        df = pd.concat([df, macd], axis=1)
+        macd = ta.trend.MACD(df['Close'], window_fast=fast_period, window_slow=slow_period, window_sign=signal_period)
+        df = pd.concat([df, macd.macd(), macd.macd_signal()], axis=1)
         return df
 
     # Function to calculate Stochastic Oscillator
     def calculate_stochastic_oscillator(self, df, k_period=14, d_period=3):
-        stoch = ta.stoch(df['High'], df['Low'], df['Close'], k=k_period, d=d_period)
-        df = pd.concat([df, stoch], axis=1)
+        stoch = ta.momentum.StochasticOscillator(df['High'], df['Low'], df['Close'], window=k_period, smooth_window=d_period)
+        df = pd.concat([df, stoch.stoch()], axis=1)
         return df
 
     # Function to calculate On-Balance Volume (OBV)
     def calculate_obv(self, df):
-        df['OBV'] = ta.obv(df['Close'], df['Volume'])
+        df['OBV'] = ta.volume.OnBalanceVolumeIndicator(df['Close'], df['Volume']).on_balance_volume()
         return df
 
     # Function to calculate Ichimoku Cloud
     def calculate_ichimoku_cloud(self, df):
-        ichimoku = ta.ichimoku(df['High'], df['Low'], df['Close'])
-        df = pd.concat([df, ichimoku[0], ichimoku[1]], axis=1)
+        ichimoku = ta.trend.IchimokuIndicator(df['High'], df['Low'])
+        df = pd.concat([df, ichimoku.ichimoku_a(), ichimoku.ichimoku_b()], axis=1)
         return df
 
     # Global function to calculate all technical indicators
