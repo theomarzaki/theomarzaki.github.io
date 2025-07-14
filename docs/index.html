@@ -59,7 +59,7 @@
   <div class="container">
     <h1>⚡ Bitcoin Price Prediction Dashboard</h1>
     <p>
-      This interactive dashboard shows daily LSTM model predictions of Bitcoin prices, alongside actual BTC market prices and key financial metrics like PnL, Sharpe ratio, and more.
+      This interactive dashboard shows daily LSTM model predictions of Bitcoin prices, alongside actual BTC market prices and key financial metrics.
     </p>
 
     <h2>What it does</h2>
@@ -67,10 +67,63 @@
       <li> Live daily predictions using an LSTM model trained on historical BTC data</li>
       <li> Visual comparison between predicted and actual BTC prices</li>
       <li> PnL tracking and market performance indicators</li>
-      <li> Built in natively in python</li>
+      <li> Built natively in Python (pytorch, pandas, matplotlib, numpy) </li>
     </ul>
 
-    <a class="button" href="https://theomarzaki.streamlit.app/" target="_blank">↗ Launch the App</a>
+    <h2>Technical Indicators Used</h2>
+<ul>
+  <li><strong>Momentum Indicators</strong>
+    <ul>
+      <li>RSI (Relative Strength Index)</li>
+      <li>Stochastic Oscillator</li>
+      <li>ROC (Rate of Change)</li>
+    </ul>
+  </li>
+
+  <li><strong>Trend Indicators</strong>
+    <ul>
+      <li>MACD (Moving Average Convergence Divergence)</li>
+      <li>Moving Averages (SMA, EMA)</li>
+    </ul>
+  </li>
+
+  <li><strong>Volatility Indicators</strong>
+    <ul>
+      <li>Bollinger Bands</li>
+    </ul>
+  </li>
+
+  <li><strong>Volume Indicators</strong>
+    <ul>
+      <li>On-Balance Volume (OBV)</li>
+      <li>Volume Moving Average</li>
+    </ul>
+  </li>
+
+    <h2>Economic Indicators Used</h2>
+<ul>
+    <ul>
+      <li>Inflation Adjusted Retruns</li>
+      <li>Real Interest Rate</li>
+      <li>GDP growth Rate</li>
+      <li>Unemployment Rate</li>
+     <li>Purchasing Power Parity</li>
+    </ul>
+  </li>
+
+        <h2>Market Indicators Used</h2>
+<ul>
+    <ul>
+      <li>Market Cap</li>
+      <li>Liquidity</li>
+      <li>Order Book Depth</li>
+      <li>Volume-Weighted Average Price (VWAP)</li>
+     <li>Network Value to Transactions (NVT) Ratio</li>
+    </ul>
+  </li>
+
+
+    <a class="button" href="https://theomarzaki.streamlit.app/" target="_blank">↗ Launch Dashboard</a>
 
     <div class="metrics">
       <strong>Omar Nassef:</strong> www.linkedin.com/in/omarnassef, +447407393988
