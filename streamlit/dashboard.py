@@ -23,7 +23,7 @@ plt.rcParams["axes.prop_cycle"] = plt.cycler(
 
 
 sns.set_context(
-    "paper", font_scale=3, rc={"lines.linewidth": 3.5, "figure.figsize": (16, 9)}
+    "paper", font_scale=2, rc={"lines.linewidth": 3.5, "figure.figsize": (16, 9)}
 )
 
 
