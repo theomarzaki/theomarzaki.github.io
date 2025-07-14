@@ -6,6 +6,6 @@
 
 📈 Uses an LSTM for future price prediction, Reinforcement Learning for market actions.
 
-Coming Soon: Integratio with crypto wallet for automated buy/sell.
+Coming Soon: Integration with crypto wallet for automated buy/sell.
 
 👉 [Launch the app](https://theomarzaki.streamlit.app/)
