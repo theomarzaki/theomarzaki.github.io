@@ -1,4 +1,3 @@
-import streamlit as st
 import pandas as pd
 import seaborn as sns
 from datetime import datetime, timedelta
@@ -36,8 +35,6 @@ technical_indicators = pd.read_csv('plotting/technical_indicators.csv')
 
 technical_indicators = technical_indicators[(technical_indicators['Date'] > start_of_week_previous) & (technical_indicators['Date'] <= start_of_week_ahead)]
 
-st.title("BTC Techanical Indicator (~30 Days) - Refreshes Daily")
-
 fig = plt.figure(figsize=(16, 9))
 sns.lineplot(x=technical_indicators['Date'], y=technical_indicators['Close'], label='Close')
 sns.lineplot(x=technical_indicators['Date'], y=technical_indicators['High'], label='High')
@@ -49,4 +46,4 @@ sns.lineplot(x=technical_indicators['Date'], y=technical_indicators['lband'], la
 plt.xticks(rotation=90)
 plt.xlabel('Date')
 plt.ylabel('USD ($)')
-st.pyplot(fig)
+plt.show()
