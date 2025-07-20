@@ -3,4 +3,4 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 
-st.title("Landing Page")
+st.title("Suggested Actions")
