@@ -15,14 +15,11 @@ def load_data():
     return df
 
 
-# Sidebar - Indicator toggles
-st.sidebar.title("BTC Indicators")
-st.sidebar.markdown("---")
-st.sidebar.caption("Toggle indicators to show on chart.")
-show_rsi = st.sidebar.checkbox("RSI (14)", value=False)
-show_macd = st.sidebar.checkbox("MACD", value=False)
-show_sma = st.sidebar.checkbox("SMA (20)", value=False)
-show_ema = st.sidebar.checkbox("EMA (20)", value=False)
+with st.expander("⚙️ Indicator Settings", expanded=True):
+    show_rsi = st.checkbox("RSI (14)", value=True)
+    show_macd = st.checkbox("MACD", value=True)
+    show_sma = st.checkbox("SMA (20)", value=True)
+    show_ema = st.checkbox("EMA (20)", value=True)
 
 # Load and process data
 df = load_data()
@@ -53,10 +50,13 @@ st.plotly_chart(fig, use_container_width=True)
 
 # Optional: Show RSI and MACD in separate subplots
 if show_rsi or show_macd:
-    st.subheader("echnical Indicator Details")
+    st.subheader("Technical Indicator Details")
 
     if show_rsi:
-        st.line_chart(df["RSI_14"], height=200)
+        fig_rsi = go.Figure()
+        fig_rsi.add_trace(go.Scatter(x=df.index, y=df["RSI_14"], name="RSI"))
+        fig_rsi.update_layout(height=300, title="RSI")
+        st.plotly_chart(fig_rsi, use_container_width=True)
 
     if show_macd:
         fig_macd = go.Figure()
