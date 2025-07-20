@@ -64,13 +64,13 @@ st.plotly_chart(fig, use_container_width=True)
 fig = make_subplots(rows=2, cols=1, shared_xaxes=True, vertical_spacing=0.1,
                     subplot_titles=["Raw Volume + MA", "Volume Ratio / OBV"])
 
-df["vol_ma_7"] = df["volume"].rolling(window=7).mean()
+df["vol_ma_7"] = df["Volume"].rolling(window=7).mean()
 
 # Volume + MA
 fig.add_trace(go.Bar(x=df["Date"], y=df["Volume"], name="Volume"), row=1, col=1)
 fig.add_trace(go.Scatter(x=df["date"], y=df["vol_ma_7"], name="7D MA", line=dict(color="orange")), row=1, col=1)
 
-df["vol_ratio"] = df["volume"] / df["vol_ma_7"]
+df["vol_ratio"] = df["Volume"] / df["vol_ma_7"]
 
 # OBV and Volume Ratio
 fig.add_trace(go.Scatter(x=df["date"], y=df["obv"], name="OBV", line=dict(color="green")), row=2, col=1)
