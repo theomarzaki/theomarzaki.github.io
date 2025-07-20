@@ -73,7 +73,7 @@ fig.add_trace(go.Scatter(x=df["Date"], y=df["vol_ma_7"], name="7D MA", line=dict
 df["vol_ratio"] = df["Volume"] / df["vol_ma_7"]
 
 # OBV and Volume Ratio
-fig.add_trace(go.Scatter(x=df["Date"], y=df["obv"], name="OBV", line=dict(color="green")), row=2, col=1)
+fig.add_trace(go.Scatter(x=df["Date"], y=df["OBV"], name="OBV", line=dict(color="green")), row=2, col=1)
 fig.add_trace(go.Scatter(x=df["Date"], y=df["vol_ratio"], name="Volume Ratio", line=dict(color="purple", dash="dot")), row=2, col=1)
 
 fig.update_layout(
