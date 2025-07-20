@@ -11,4 +11,4 @@ streamlit
 yfinance
 seaborn
 torch
-
+plotly
