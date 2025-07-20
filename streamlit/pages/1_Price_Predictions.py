@@ -5,6 +5,7 @@ import plotly.graph_objects as go
 from datetime import datetime, timedelta
 
 
+st.set_page_config(layout="wide")
 st.title("Model Predictions - 1 Week Ahead")
 
 
