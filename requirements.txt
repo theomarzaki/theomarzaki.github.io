@@ -10,3 +10,5 @@ setuptools==75.8.0
 streamlit
 yfinance
 seaborn
+torch
+
