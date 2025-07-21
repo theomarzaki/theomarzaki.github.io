@@ -3,24 +3,37 @@ import streamlit as st
 st.set_page_config(layout="wide")
 
 
-# Sidebar navigation
-st.sidebar.title("📊 BTC Dashboard")
-page = st.sidebar.radio("Go to", ["Home", "Predictions", "Performance", "Indicators"])
+# Get current page from URL query param
+query_params = st.experimental_get_query_params()
+page = query_params.get("page", ["Home"])[0]
 
-# Routing logic
+# Sidebar menu
+st.sidebar.title("📊 BTC Dashboard")
+
+st.sidebar.markdown("### Navigation")
+st.sidebar.markdown(f"""
+- [{emoji('🏠')} Home](?page=Home)
+- [{emoji('📈')} Predictions](?page=Predictions)
+- [{emoji('📊')} Performance](?page=Performance)
+- [{emoji('📉')} Indicators](?page=Indicators)
+""", unsafe_allow_html=True)
+
+# Page content
 if page == "Home":
     st.title("🏠 Bitcoin Prediction Dashboard")
     st.write("Welcome to the BTC LSTM prediction dashboard.")
 
 elif page == "Predictions":
-    # You can import or define this page's content here
     st.title("📈 LSTM Predictions")
-    # load predictions and chart
+    # predictions content here
 
 elif page == "Performance":
     st.title("📊 Performance & PnL")
-    # load performance metrics
+    # performance metrics
 
 elif page == "Indicators":
     st.title("📉 Technical Indicators")
-    # render indicators
+    # indicators content here
+
+else:
+    st.error("Page not found.")
