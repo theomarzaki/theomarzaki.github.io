@@ -32,6 +32,7 @@ def predict_prices():
         "predicted_close": df['0']
     })
 
+    pred_df["Date"] = pd.to_datetime(pred_df["Date"]).dt.strftime("%Y-%m-%d")
     return pred_df
 
 

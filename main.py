@@ -3,6 +3,9 @@ import ticker
 from price_prediction import train, test, predict, data_manipulation
 from price_prediction.networks.lstm import LSTMRegressor
 
+from datetime import datetime, timedelta
+import pandas as pd
+
 # TICKERS = ["XRP-USD", "BTC-USD", "ETH-USD", "SOL-USD"]
 # KRAKEN_TICKERS = ["XRPUSD", "XBTUSD", "ETHUSD", "SOLUSD"]
 
@@ -11,26 +14,39 @@ KRAKEN_TICKERS = ["XBTUSD"]
 
 INPUT_DIM = 36
 
+df = pd.read_csv('price_prediction/results/price_predictions.csv', index_col=0)
+current_time = datetime.utcnow()
+future_dates = [current_time + timedelta(days=i) for i in range(1, 8)]
 
-if __name__ == "__main__":
-    for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):
-        print(F"Ticker: {yf_ticker}")
-        ticker.setTickers(yf_ticker, kraken_ticker)
-        decision_verdict = verdict.GiveVerdict()
-        print(verdict)
+# build prediction DataFrame
+pred_df = pd.DataFrame({
+    "Date": pd.to_datetime(future_dates),
+    "predicted_close": df['0']
+})
 
-    data_manipulation.manipulate_data()
+pred_df["Date"] = pd.to_datetime(pred_df["Date"]).dt.strftime("%Y-%m-%d")
 
-    model = LSTMRegressor(input_dim=INPUT_DIM)
+print(pred_df)
 
-    # Train Model
-    train.train(model)
-
-    # Test Model
-    test.test(model)
-
-    # Make Predictions
-    predict.predict(model)
-
-    # save suggestions
-    decision_verdict.to_csv('data/verdict.csv')
+# if __name__ == "__main__":
+#     for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):
+#         print(F"Ticker: {yf_ticker}")
+#         ticker.setTickers(yf_ticker, kraken_ticker)
+#         decision_verdict = verdict.GiveVerdict()
+#         print(verdict)
+#
+#     data_manipulation.manipulate_data()
+#
+#     model = LSTMRegressor(input_dim=INPUT_DIM)
+#
+#     # Train Model
+#     train.train(model)
+#
+#     # Test Model
+#     test.test(model)
+#
+#     # Make Predictions
+#     predict.predict(model)
+#
+#     # save suggestions
+#     decision_verdict.to_csv('data/verdict.csv')
