@@ -14,7 +14,7 @@ st.set_page_config(layout="wide")
 def load_data():
     df = pd.read_csv('data/merged_indicators.csv')
     current_time = datetime.utcnow()
-    start_of_week_previous = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+    start_of_week_previous = (current_time - timedelta(days=2)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     start_of_week_ahead = (current_time + timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     df = df[(df['Date'] > start_of_week_previous) & (df['Date'] <= start_of_week_ahead)]
     df.set_index("Date", inplace=True)
@@ -24,6 +24,7 @@ def load_data():
 def predict_prices():
     df = pd.read_csv('price_prediction/results/price_predictions.csv', index_col=0)
     current_time = datetime.utcnow()
+    current_time = (current_time - timedelta(days=2)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     future_dates = [current_time + timedelta(days=i) for i in range(1, 8)]
 
     # build prediction DataFrame
