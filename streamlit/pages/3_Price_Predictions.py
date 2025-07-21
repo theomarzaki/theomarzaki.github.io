@@ -22,15 +22,20 @@ def load_data():
 
 
 def predict_prices():
+    data = pd.read_csv('data/merged_indicators.csv')
+
     df = pd.read_csv('price_prediction/results/price_predictions.csv', index_col=0)
+    predicted_prices = list(df.values.flatten())
+    predicted_prices.insert(0, data.iloc[-1].Close)
+
     current_time = datetime.utcnow()
-    current_time = (current_time - timedelta(days=1))
-    future_dates = [current_time + timedelta(days=i) for i in range(1, 8)]
+    current_time = (current_time - timedelta(days=2))
+    future_dates = [current_time + timedelta(days=i) for i in range(1, len(predicted_prices) + 1)]
 
     # build prediction DataFrame
     pred_df = pd.DataFrame({
         "Date": pd.to_datetime(future_dates),
-        "predicted_close": df['0']
+        "predicted_close": predicted_prices
     })
 
     pred_df["Date"] = pd.to_datetime(pred_df["Date"]).dt.strftime("%Y-%m-%d")

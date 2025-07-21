@@ -27,7 +27,6 @@ def predict(model):
     input_seq = data.copy()
 
     input_seq = x_scaler.transform(input_seq.values)
-    print(input_seq)
 
     for _ in range(WINDOW_SIZE):
         input_tensor = torch.tensor(input_seq, dtype=torch.float32).unsqueeze(0)  # shape: (1, 7, features)
