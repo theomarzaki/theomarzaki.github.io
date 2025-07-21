@@ -43,17 +43,26 @@ df = load_data()
 data = predict_prices()
 
 fig = go.Figure()
-fig.add_trace(go.Scatter(x=df.index, y=df["Close"], name="Close", line=dict(color="black")))
-fig.add_trace(go.Scatter(x=data.index, y=data["predicted_close"], name="Predictions", line=dict(color="red", dash="dash")))
+fig.add_trace(go.Scatter(
+    x=df.index,
+    y=df["Close"],
+    name="Actual Close",
+    line=dict(color="black")
+))
+fig.add_trace(go.Scatter(
+    x=data.index,
+    y=data["predicted_close"],
+    name="Predicted Close",
+    line=dict(color="red", dash="dash")
+))
 
-# Plotly settings
 fig.update_layout(
-    title="Predicted BTC Close Price",
+    title="BTC Close Price & 7-Day Forecast",
     xaxis_title="Date",
     yaxis_title="Price (USD)",
-    height=500,
     template="plotly_white",
-    legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1)
+    height=500
 )
 
+# Streamlit render
 st.plotly_chart(fig, use_container_width=True)
