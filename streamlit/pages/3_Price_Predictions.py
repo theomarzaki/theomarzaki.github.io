@@ -32,6 +32,8 @@ def predict_prices():
         "predicted_close": df['0']
     })
 
+    pred_df["Date"] = pd.to_datetime(pred_df["Date"])
+
     # Optionally, append it to your existing df (just for visualization)
     full_df = pd.concat([df, pred_df], ignore_index=True)
     return full_df
