@@ -33,6 +33,7 @@ def predict_prices():
     })
 
     pred_df["Date"] = pd.to_datetime(pred_df["Date"]).dt.strftime("%Y-%m-%d")
+    pred_df.set_index("Date", inplace=True)
     return pred_df
 
 
