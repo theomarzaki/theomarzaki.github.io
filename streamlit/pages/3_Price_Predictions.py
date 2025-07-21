@@ -14,7 +14,7 @@ st.set_page_config(layout="wide")
 def load_data():
     df = pd.read_csv('data/merged_indicators.csv')
     current_time = datetime.utcnow()
-    start_of_week_previous = (current_time - timedelta(days=2)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+    start_of_week_previous = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     start_of_week_ahead = (current_time + timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     df = df[(df['Date'] > start_of_week_previous) & (df['Date'] <= start_of_week_ahead)]
     df.set_index("Date", inplace=True)
@@ -49,12 +49,12 @@ fig.add_trace(go.Scatter(
     name="Actual Close",
     line=dict(color="black")
 ))
-# fig.add_trace(go.Scatter(
-#     x=data.index,
-#     y=data["predicted_close"],
-#     name="Predicted Close",
-#     line=dict(color="red", dash="dash")
-# ))
+fig.add_trace(go.Scatter(
+    x=data.index,
+    y=data["predicted_close"],
+    name="Predicted Close",
+    line=dict(color="red", dash="dash")
+))
 
 fig.update_layout(
     title="BTC Close Price & 7-Day Forecast",
