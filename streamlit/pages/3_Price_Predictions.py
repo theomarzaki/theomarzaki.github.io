@@ -28,15 +28,11 @@ def predict_prices():
 
     # build prediction DataFrame
     pred_df = pd.DataFrame({
-        "Date": future_dates,
+        "Date": pd.to_datetime(future_dates),
         "predicted_close": df['0']
     })
 
-    pred_df["Date"] = pd.to_datetime(pred_df["Date"])
-
-    # Optionally, append it to your existing df (just for visualization)
-    full_df = pd.concat([df, pred_df], ignore_index=True)
-    return full_df
+    return pred_df
 
 
 st.title("Model Predictions - 1 Week Ahead")
