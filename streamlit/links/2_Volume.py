@@ -3,6 +3,9 @@ import pandas as pd
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 from plotly.subplots import make_subplots
+from ui.sidebar import render_sidebar
+
+render_sidebar()
 
 
 @st.cache_data

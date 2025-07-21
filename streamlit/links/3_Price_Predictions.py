@@ -1,8 +1,10 @@
-
 import streamlit as st
 import pandas as pd
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
+from ui.sidebar import render_sidebar
+
+render_sidebar()
 
 
 st.set_page_config(layout="wide")
