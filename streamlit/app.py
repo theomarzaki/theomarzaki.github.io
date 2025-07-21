@@ -12,10 +12,10 @@ st.sidebar.title("📊 BTC Dashboard")
 
 st.sidebar.markdown("### Navigation")
 st.sidebar.markdown(f"""
-- [{emoji('🏠')} Home](?page=Home)
-- [{emoji('📈')} Predictions](?page=Predictions)
-- [{emoji('📊')} Performance](?page=Performance)
-- [{emoji('📉')} Indicators](?page=Indicators)
+- [Home](?page=Home)
+- [Predictions](?page=Predictions)
+- [Performance](?page=Performance)
+- [Indicators](?page=Indicators)
 """, unsafe_allow_html=True)
 
 # Page content
