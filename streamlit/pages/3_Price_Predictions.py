@@ -29,7 +29,7 @@ def predict_prices():
     # build prediction DataFrame
     pred_df = pd.DataFrame({
         "Date": future_dates,
-        "predicted_close": df.values
+        "predicted_close": df['0']
     })
 
     # Optionally, append it to your existing df (just for visualization)
