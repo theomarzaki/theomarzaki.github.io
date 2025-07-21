@@ -8,7 +8,6 @@ render_sidebar()
 
 
 st.set_page_config(layout="wide")
-st.title("Model Predictions - 1 Week Ahead")
 
 
 @st.cache_data
@@ -22,15 +21,33 @@ def load_data():
     return df
 
 
+def predict_prices():
+    df = pd.read_csv('price_prediction/results/price_predictions.csv', index_col=0)
+    current_time = datetime.utcnow()
+    future_dates = [current_time + timedelta(days=i) for i in range(1, 8)]
+
+    # build prediction DataFrame
+    pred_df = pd.DataFrame({
+        "Date": future_dates,
+        "predicted_close": df.values
+    })
+
+    # Optionally, append it to your existing df (just for visualization)
+    full_df = pd.concat([df, pred_df], ignore_index=True)
+    return full_df
+
+
+st.title("Model Predictions - 1 Week Ahead")
 df = load_data()
 
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=df.index, y=df["Close"], name="Close", line=dict(color="black")))
+fig.add_trace(go.Scatter(x=df.index, y=df["predicted_close"], name="Predictions", line=dict(color="red", dash="dash")))
 
 # Plotly settings
 fig.update_layout(
-    title="BTC Close Price with Indicators",
+    title="Predicted BTC Close Price",
     xaxis_title="Date",
     yaxis_title="Price (USD)",
     height=500,
