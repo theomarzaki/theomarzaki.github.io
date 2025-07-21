@@ -49,12 +49,12 @@ fig.add_trace(go.Scatter(
     name="Actual Close",
     line=dict(color="black")
 ))
-fig.add_trace(go.Scatter(
-    x=data.index,
-    y=data["predicted_close"],
-    name="Predicted Close",
-    line=dict(color="red", dash="dash")
-))
+# fig.add_trace(go.Scatter(
+#     x=data.index,
+#     y=data["predicted_close"],
+#     name="Predicted Close",
+#     line=dict(color="red", dash="dash")
+# ))
 
 fig.update_layout(
     title="BTC Close Price & 7-Day Forecast",
