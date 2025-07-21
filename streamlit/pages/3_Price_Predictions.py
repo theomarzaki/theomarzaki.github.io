@@ -24,7 +24,7 @@ def load_data():
 def predict_prices():
     df = pd.read_csv('price_prediction/results/price_predictions.csv', index_col=0)
     current_time = datetime.utcnow()
-    current_time = (current_time - timedelta(days=1))
+    # current_time = (current_time - timedelta(days=1))
     future_dates = [current_time + timedelta(days=i) for i in range(1, 8)]
 
     # build prediction DataFrame
