@@ -39,11 +39,11 @@ def predict_prices():
 
 st.title("Model Predictions - 1 Week Ahead")
 df = load_data()
-
+data = predict_prices()
 
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=df.index, y=df["Close"], name="Close", line=dict(color="black")))
-fig.add_trace(go.Scatter(x=df.index, y=df["predicted_close"], name="Predictions", line=dict(color="red", dash="dash")))
+fig.add_trace(go.Scatter(x=data.index, y=data["predicted_close"], name="Predictions", line=dict(color="red", dash="dash")))
 
 # Plotly settings
 fig.update_layout(
