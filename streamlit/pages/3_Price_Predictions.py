@@ -47,63 +47,75 @@ def getAccuracy():
     return data['R2'].values[0]
 
 
-st.title("Model Predictions - 1 Week Ahead")
-df = load_data()
-data = predict_prices()
+subpage = st.sidebar.radio("Select: ", ["Price Predictions", "Model Accuracy", "Training Loss"])
 
-fig = go.Figure()
-fig.add_trace(go.Scatter(
-    x=df.index,
-    y=df["Close"],
-    name="Actual Close",
-    line=dict(color="black")
-))
-fig.add_trace(go.Scatter(
-    x=data.index,
-    y=data["predicted_close"],
-    name="Predicted Close",
-    line=dict(color="red", dash="dash")
-))
+if subpage == "Price Predictions":
+    st.header("Price Predictions")
+    st.title("Model Predictions - 1 Week Ahead")
+    df = load_data()
+    data = predict_prices()
 
-fig.update_layout(
-    title="BTC Close Price & 7-Day Forecast",
-    xaxis_title="Date",
-    yaxis_title="Price (USD)",
-    template="plotly_white",
-    height=500
-)
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        x=df.index,
+        y=df["Close"],
+        name="Actual Close",
+        line=dict(color="black")
+    ))
+    fig.add_trace(go.Scatter(
+        x=data.index,
+        y=data["predicted_close"],
+        name="Predicted Close",
+        line=dict(color="red", dash="dash")
+    ))
 
-# Streamlit render
-st.plotly_chart(fig, use_container_width=True)
+    fig.update_layout(
+        title="BTC Close Price & 7-Day Forecast",
+        xaxis_title="Date",
+        yaxis_title="Price (USD)",
+        template="plotly_white",
+        height=500
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
 
 
-fig = go.Figure()
+elif subpage == "Model Accuracy":
+    fig = go.Figure()
 
-fig.add_trace(go.Indicator(
-    mode="number+gauge",
-    value=getAccuracy(),
-    number={'suffix': ""},
-    title={'text': "Model R² Score"},
-    gauge={
-        'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkgray"},
-        'bar': {'color': "green"},
-        'bgcolor': "white",
-        'steps': [
-            {'range': [0, 0.5], 'color': '#f2d7d5'},
-            {'range': [0.5, 0.75], 'color': '#fcf3cf'},
-            {'range': [0.75, 1.0], 'color': '#d5f5e3'}
-        ],
-        'threshold': {
-            'line': {'color': "black", 'width': 4},
-            'thickness': 0.75,
-            'value': getAccuracy()
+    fig.add_trace(go.Indicator(
+        mode="number+gauge",
+        value=getAccuracy(),
+        number={'suffix': ""},
+        title={'text': "Model R² Score"},
+        gauge={
+            'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkgray"},
+            'bar': {'color': "green"},
+            'bgcolor': "white",
+            'steps': [
+                {'range': [0, 0.5], 'color': '#f2d7d5'},
+                {'range': [0.5, 0.75], 'color': '#fcf3cf'},
+                {'range': [0.75, 1.0], 'color': '#d5f5e3'}
+            ],
+            'threshold': {
+                'line': {'color': "black", 'width': 4},
+                'thickness': 0.75,
+                'value': getAccuracy()
+            }
         }
-    }
-))
+    ))
 
-fig.update_layout(
-    margin=dict(l=20, r=20, t=50, b=20),
-    height=300
-)
+    fig.update_layout(
+        margin=dict(l=20, r=20, t=50, b=20),
+        height=300
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+
+elif subpage == "Training Loss":
+    st.header("Training Loss")
+    st.write("Show volatility charts here.")
+
 
 st.plotly_chart(fig, use_container_width=True)
