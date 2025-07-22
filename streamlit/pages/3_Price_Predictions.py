@@ -117,5 +117,3 @@ elif subpage == "Training Loss":
     st.header("Training Loss")
     st.write("Show volatility charts here.")
 
-
-st.plotly_chart(fig, use_container_width=True)
