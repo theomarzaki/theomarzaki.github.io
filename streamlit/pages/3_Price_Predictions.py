@@ -80,16 +80,28 @@ st.plotly_chart(fig, use_container_width=True)
 fig = go.Figure(go.Indicator(
     mode="gauge+number",
     value=getAccuracy(),
-    title={'text': "R² Score"},
+    number={'suffix': " R²"},
+    title={'text': "Model R² Score"},
     gauge={
-        'axis': {'range': [0, 1]},
+        'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkgray"},
         'bar': {'color': "green"},
+        'bgcolor': "white",
         'steps': [
-            {'range': [0, 0.5], 'color': "lightgray"},
-            {'range': [0.5, 0.75], 'color': "gray"},
-            {'range': [0.75, 1], 'color': "lightgreen"},
+            {'range': [0, 0.5], 'color': '#f2d7d5'},
+            {'range': [0.5, 0.75], 'color': '#fcf3cf'},
+            {'range': [0.75, 1.0], 'color': '#d5f5e3'}
         ],
+        'threshold': {
+            'line': {'color': "black", 'width': 4},
+            'thickness': 0.75,
+            'value': r2
+        }
     }
 ))
+
+fig.update_layout(
+    margin=dict(l=20, r=20, t=50, b=20),
+    height=300
+)
 
 st.plotly_chart(fig, use_container_width=True)
