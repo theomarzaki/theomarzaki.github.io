@@ -42,6 +42,11 @@ def predict_prices():
     return pred_df
 
 
+def getAccuracy():
+    data = pd.read_csv('price_prediction/results/testing_results.csv')
+    return data['R2']
+
+
 st.title("Model Predictions - 1 Week Ahead")
 df = load_data()
 data = predict_prices()
@@ -69,4 +74,22 @@ fig.update_layout(
 )
 
 # Streamlit render
+st.plotly_chart(fig, use_container_width=True)
+
+
+fig = go.Figure(go.Indicator(
+    mode="gauge+number",
+    value=getAccuracy(),
+    title={'text': "R² Score"},
+    gauge={
+        'axis': {'range': [0, 1]},
+        'bar': {'color': "green"},
+        'steps': [
+            {'range': [0, 0.5], 'color': "lightgray"},
+            {'range': [0.5, 0.75], 'color': "gray"},
+            {'range': [0.75, 1], 'color': "lightgreen"},
+        ],
+    }
+))
+
 st.plotly_chart(fig, use_container_width=True)
