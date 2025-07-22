@@ -94,7 +94,7 @@ fig = go.Figure(go.Indicator(
         'threshold': {
             'line': {'color': "black", 'width': 4},
             'thickness': 0.75,
-            'value': r2
+            'value': getAccuracy()
         }
     }
 ))
