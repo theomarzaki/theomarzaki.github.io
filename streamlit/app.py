@@ -89,23 +89,23 @@ def render_indicator_table(indicators):
 
 st.title("BTC Market Suggested Actions Based on Signals")
 # --- Technical ---
-st.markdown(verdict_card("echnical", tech_label, tech_color), unsafe_allow_html=True)
+st.markdown(verdict_card("Technical", tech_label, tech_color), unsafe_allow_html=True)
 with st.expander("See technical indicators"):
     st.markdown(render_indicator_table(technical_indicators), unsafe_allow_html=True)
 
 # --- Market ---
-st.markdown(verdict_card("arket", market_label, market_color), unsafe_allow_html=True)
+st.markdown(verdict_card("Market", market_label, market_color), unsafe_allow_html=True)
 with st.expander("See market indicators"):
     st.markdown(render_indicator_table(market_indicators), unsafe_allow_html=True)
 
 # --- Macro ---
-st.markdown(verdict_card("acro", macro_label, macro_color), unsafe_allow_html=True)
+st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=True)
 with st.expander("See macro indicators"):
     st.markdown(render_indicator_table(macro_indicators), unsafe_allow_html=True)
 
 total_score = 0.99
 # --- Final ---
-st.markdown(verdict_card("inal Suggestion", total_label, total_color), unsafe_allow_html=True)
+st.markdown(verdict_card("Final Suggestion", total_label, total_color), unsafe_allow_html=True)
 with st.expander("Breakdown of total score"):
     st.markdown(f"""
     - **Technical** (33%): {tech_label}
