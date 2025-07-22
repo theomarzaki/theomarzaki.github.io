@@ -49,7 +49,7 @@ def train(model):
 
     best_train_loss = float('inf')
     epochs_no_improve = 0
-    early_stop_patience = 10
+    early_stop_patience = 5
     max_epochs = 2000
 
     for epoch in range(max_epochs):
