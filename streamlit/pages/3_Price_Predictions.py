@@ -77,8 +77,10 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 
-fig = go.Figure(go.Indicator(
-    mode="gauge+number",
+fig = go.Figure()
+
+fig.add_trace(go.Indicator(
+    mode="number+gauge",
     value=getAccuracy(),
     number={'suffix': " R²"},
     title={'text': "Model R² Score"},
