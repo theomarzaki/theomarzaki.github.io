@@ -21,11 +21,16 @@ def verdict_card(title, label, bg_color):
         background-color: {bg_color};
         border-radius: 0.75rem;
         padding: 1.5rem;
+        margin-bottom: 0.5rem;
         text-align: center;
         color: white;
         font-weight: bold;
         font-size: 1.5rem;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.2);
+        box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
+        height: 120px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     ">
         <div style="font-size: 1rem; margin-bottom: 0.5rem;">{title}</div>
         {label}
@@ -36,6 +41,23 @@ def verdict_card(title, label, bg_color):
 def load_data():
     data = pd.read_csv('data/verdict.csv')
     return data
+
+
+technical_indicators = {
+    "RSI": (34, "Oversold", "↑"),
+    "MACD": (-1.2, "Bearish", "↓"),
+    "MA Crossover": ("No", "Neutral", "→")
+}
+
+market_indicators = {
+    "Funding Rate": (0.015, "Neutral", "→"),
+    "Open Interest": ("Increasing", "Bullish", "↑")
+}
+
+macro_indicators = {
+    "CPI YoY": (3.2, "High Inflation", "↓"),
+    "DXY": (104.5, "Strong Dollar", "↓")
+}
 
 
 df = load_data()
@@ -51,17 +73,44 @@ market_color = signal_label(market_label)
 macro_color = signal_label(macro_label)
 total_color = signal_label(total_label)
 
+
+# Table formatter
+def render_indicator_table(indicators):
+    rows = ""
+    for name, (value, comment, arrow) in indicators.items():
+        rows += f"<tr><td>{name}</td><td>{value}</td><td>{comment}</td><td>{arrow}</td></tr>"
+    return f"""
+    <table style='width:100%; text-align:left; font-size: 0.9rem; border-spacing: 0 4px;'>
+        <tr><th>Indicator</th><th>Value</th><th>Comment</th><th>↕</th></tr>
+        {rows}
+    </table>
+    """
+
+
 st.title("BTC Market Suggested Actions Based on Signals")
+# --- Technical ---
+st.markdown(verdict_card("echnical", tech_label, tech_color), unsafe_allow_html=True)
+with st.expander("See technical indicators"):
+    st.markdown(render_indicator_table(technical_indicators), unsafe_allow_html=True)
 
-row1_col1, row1_col2 = st.columns(2)
-with row1_col1:
-    st.markdown(verdict_card("Technical", tech_label, tech_color), unsafe_allow_html=True)
-with row1_col2:
-    st.markdown(verdict_card("Market", market_label, market_color), unsafe_allow_html=True)
+# --- Market ---
+st.markdown(verdict_card("arket", market_label, market_color), unsafe_allow_html=True)
+with st.expander("See market indicators"):
+    st.markdown(render_indicator_table(market_indicators), unsafe_allow_html=True)
 
-# Second row: Macro and Final
-row2_col1, row2_col2 = st.columns(2)
-with row2_col1:
-    st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=True)
-with row2_col2:
-    st.markdown(verdict_card("Final Suggestion", total_label, total_color), unsafe_allow_html=True)
+# --- Macro ---
+st.markdown(verdict_card("acro", macro_label, macro_color), unsafe_allow_html=True)
+with st.expander("See macro indicators"):
+    st.markdown(render_indicator_table(macro_indicators), unsafe_allow_html=True)
+
+total_score = 0.99
+# --- Final ---
+st.markdown(verdict_card("inal Suggestion", total_label, total_color), unsafe_allow_html=True)
+with st.expander("Breakdown of total score"):
+    st.markdown(f"""
+    - **Technical** (33%): {tech_label}
+    - **Market** (33%): {market_label}
+    - **Macro** (33%): {macro_label}
+
+    **Combined Score:** {total_score:.2f} → **{total_label}**
+    """)
