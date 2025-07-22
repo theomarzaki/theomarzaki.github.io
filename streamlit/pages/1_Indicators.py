@@ -20,7 +20,7 @@ def load_data():
     return df
 
 
-subpage = st.sidebar.selectbox("Indicator Settings: ", ["RSI (14)", "MACD", "SMA (20)", "EMA (20)"])
+subpage = st.sidebar.radio("Indicator Settings: ", ["RSI (14)", "MACD", "SMA (20)", "EMA (20)"])
 
 # Load and process data
 df = load_data()
