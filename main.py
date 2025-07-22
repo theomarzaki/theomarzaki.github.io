@@ -1,3 +1,4 @@
+import pandas as pd
 from decision.score_based import verdict
 import ticker
 from price_prediction import train, test, predict, data_manipulation
