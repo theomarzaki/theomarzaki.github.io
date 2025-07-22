@@ -12,7 +12,7 @@ def signal_label(signal):
     elif signal == "Sell":
         return "red"
     else:
-        return "orange"
+        return "grey"
 
 
 def verdict_card(title, label, bg_color):
@@ -87,7 +87,7 @@ def render_indicator_table(indicators):
     """
 
 
-st.title("BTC Market Suggested Actions Based on Signals")
+st.title("BTC Market Suggested Actions Based on Signals & Price Predictions")
 # --- Technical ---
 st.markdown(verdict_card("Technical", tech_label, tech_color), unsafe_allow_html=True)
 with st.expander("See technical indicators"):
