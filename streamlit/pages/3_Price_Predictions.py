@@ -82,7 +82,7 @@ fig = go.Figure()
 fig.add_trace(go.Indicator(
     mode="number+gauge",
     value=getAccuracy(),
-    number={'suffix': " R²"},
+    number={'suffix': ""},
     title={'text': "Model R² Score"},
     gauge={
         'axis': {'range': [0, 1], 'tickwidth': 1, 'tickcolor': "darkgray"},
