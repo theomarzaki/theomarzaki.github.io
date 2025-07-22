@@ -19,53 +19,52 @@ def load_data():
 
 df = load_data()
 
-subpage = st.sidebar.multiselect("Volume Settings: ", ["Moving Average", "Volume Ratio", "OBV", "Volume", "Price vs Volume"])
+subpage = st.sidebar.multiselect("Volume Settings: ", ["Moving Average", "Volume Ratio", "OBV", "Volume"])
 
-if "Price vs Volume" in subpage:
 
-    fig = go.Figure()
+fig = go.Figure()
 
-    # Price line (left y-axis)
-    fig.add_trace(go.Scatter(
-        x=df["Date"],
-        y=df["Close"],
-        name="BTC Price",
-        line=dict(color="royalblue"),
-        yaxis="y1"
-    ))
+# Price line (left y-axis)
+fig.add_trace(go.Scatter(
+    x=df["Date"],
+    y=df["Close"],
+    name="BTC Price",
+    line=dict(color="royalblue"),
+    yaxis="y1"
+))
 
 # Volume bars (right y-axis)
-    fig.add_trace(go.Bar(
-        x=df["Date"],
-        y=df["Volume"],
-        name="Volume",
-        marker_color="lightgray",
-        yaxis="y2",
-        opacity=0.4
-    ))
+fig.add_trace(go.Bar(
+    x=df["Date"],
+    y=df["Volume"],
+    name="Volume",
+    marker_color="lightgray",
+    yaxis="y2",
+    opacity=0.4
+))
 
 # Layout
-    fig.update_layout(
-        title="BTC Price vs Trading Volume",
-        xaxis=dict(title="Date"),
-        yaxis=dict(
-            title="Price (USD)",
-            side="left",
-            showgrid=False
-        ),
-        yaxis2=dict(
-            title="Volume",
-            overlaying="y",
-            side="right",
-            showgrid=False
-        ),
-        legend=dict(x=0, y=1.1, orientation="h"),
-        height=500
-    )
+fig.update_layout(
+    title="BTC Price vs Trading Volume",
+    xaxis=dict(title="Date"),
+    yaxis=dict(
+        title="Price (USD)",
+        side="left",
+        showgrid=False
+    ),
+    yaxis2=dict(
+        title="Volume",
+        overlaying="y",
+        side="right",
+        showgrid=False
+    ),
+    legend=dict(x=0, y=1.1, orientation="h"),
+    height=500
+)
 
-    st.plotly_chart(fig, use_container_width=True)
+st.plotly_chart(fig, use_container_width=True)
 
-if "Volume" in subpage or "Moving Average" in subpage:
+if "Volume" in subpage or "Moving Average" in subpage or "Volume Ratio" in subpage:
     fig = go.Figure()
     if "Volume" in subpage:
         fig.add_trace(go.Bar(x=df["Date"], y=df["Volume"], name="Volume"))
@@ -75,6 +74,10 @@ if "Volume" in subpage or "Moving Average" in subpage:
         fig.add_trace(go.Scatter(x=df["Date"], y=df["vol_ma_7"], name="7D MA", line=dict(color="orange")))
     st.plotly_chart(fig, use_container_width=True)
 
+    if "Volume Ratio" in subpage:
+        df["vol_ratio"] = df["Volume"] / df["vol_ma_7"]
+        fig.add_trace(go.Scatter(x=df["Date"], y=df["vol_ratio"], name="Volume Ratio", line=dict(color="purple", dash="dot")))
+
     fig.update_layout(
         title="BTC Volume Analytics",
         height=600,
@@ -82,14 +85,9 @@ if "Volume" in subpage or "Moving Average" in subpage:
     )
 
 
-if "Volume Ratio" in subpage or "OBV" in subpage:
+if "OBV" in subpage:
     fig = go.Figure()
-    if "Volume Ratio" in subpage:
-        df["vol_ratio"] = df["Volume"] / df["vol_ma_7"]
-        fig.add_trace(go.Scatter(x=df["Date"], y=df["vol_ratio"], name="Volume Ratio", line=dict(color="purple", dash="dot")))
-
-    if "OBV" in subpage:
-        fig.add_trace(go.Scatter(x=df["Date"], y=df["OBV"], name="OBV", line=dict(color="green")))
+    fig.add_trace(go.Scatter(x=df["Date"], y=df["OBV"], name="OBV", line=dict(color="green")))
     st.plotly_chart(fig, use_container_width=True)
 
     fig.update_layout(
