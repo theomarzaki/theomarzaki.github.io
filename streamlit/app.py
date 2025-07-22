@@ -53,13 +53,15 @@ total_color = signal_label(total_label)
 
 st.title("BTC Market Suggested Actions Based on Signals")
 
-col1, col2, col3, col4 = st.columns(4)
-
-with col1:
+row1_col1, row1_col2 = st.columns(2)
+with row1_col1:
     st.markdown(verdict_card("Technical", tech_label, tech_color), unsafe_allow_html=True)
-with col2:
+with row1_col2:
     st.markdown(verdict_card("Market", market_label, market_color), unsafe_allow_html=True)
-with col3:
+
+# Second row: Macro and Final
+row2_col1, row2_col2 = st.columns(2)
+with row2_col1:
     st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=True)
-with col4:
-    st.markdown(verdict_card("Final", total_label, total_color), unsafe_allow_html=True)
+with row2_col2:
+    st.markdown(verdict_card("Final Suggestion", total_label, total_color), unsafe_allow_html=True)
