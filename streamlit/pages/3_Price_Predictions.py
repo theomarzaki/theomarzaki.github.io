@@ -44,7 +44,7 @@ def predict_prices():
 
 def getAccuracy():
     data = pd.read_csv('price_prediction/results/testing_results.csv')
-    return data['R2']
+    return data['R2'].value
 
 
 st.title("Model Predictions - 1 Week Ahead")
