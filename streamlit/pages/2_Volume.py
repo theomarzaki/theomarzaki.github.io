@@ -67,7 +67,7 @@ st.plotly_chart(fig, use_container_width=True)
 if "Volume" in subpage or "Moving Average" in subpage or "Volume Ratio" in subpage:
     fig = go.Figure()
     if "Volume" in subpage:
-        fig.add_trace(go.Bar(x=df["Date"], y=df["Volume"], name="Volume"))
+        fig.add_trace(go.Scatter(x=df["Date"], y=df["Volume"], name="Volume"))
 
     if "Moving Average" in subpage:
         df["vol_ma_7"] = df["Volume"].rolling(window=7).mean()
@@ -91,7 +91,7 @@ if "OBV" in subpage:
     st.plotly_chart(fig, use_container_width=True)
 
     fig.update_layout(
-        title="BTC Volume Analytics",
+        title="BTC Volume",
         height=600,
         showlegend=True
     )
