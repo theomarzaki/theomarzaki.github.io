@@ -20,11 +20,7 @@ def load_data():
     return df
 
 
-with st.expander("⚙️ Indicator Settings", expanded=True):
-    show_rsi = st.checkbox("RSI (14)", value=True)
-    show_macd = st.checkbox("MACD", value=True)
-    show_sma = st.checkbox("SMA (20)", value=True)
-    show_ema = st.checkbox("EMA (20)", value=True)
+subpage = st.sidebar.selectbox("Indicator Settings: ", ["RSI (14)", "MACD", "SMA (20)", "EMA (20)"])
 
 # Load and process data
 df = load_data()
@@ -35,10 +31,10 @@ st.title("BTC Price Dashboard (~30 Days) - Refreshes Daily")
 fig = go.Figure()
 fig.add_trace(go.Scatter(x=df.index, y=df["Close"], name="Close", line=dict(color="black")))
 
-if show_sma:
+if subpage == "SMA (20)":
     fig.add_trace(go.Scatter(x=df.index, y=df["SMA_20"], name="SMA 20", line=dict(color="blue", dash="dot")))
 
-if show_ema:
+if subpage == "EMA (20)":
     fig.add_trace(go.Scatter(x=df.index, y=df["EMA_20"], name="EMA 20", line=dict(color="orange", dash="dash")))
 
 # Plotly settings
@@ -54,16 +50,16 @@ fig.update_layout(
 st.plotly_chart(fig, use_container_width=True)
 
 # Optional: Show RSI and MACD in separate subplots
-if show_rsi or show_macd:
+if subpage == "RSI (14)" or subpage == "MACD":
     st.subheader("Technical Indicator Details")
 
-    if show_rsi:
+    if subpage == "RSI (14)":
         fig_rsi = go.Figure()
         fig_rsi.add_trace(go.Scatter(x=df.index, y=df["RSI_14"], name="RSI"))
         fig_rsi.update_layout(height=300, title="RSI")
         st.plotly_chart(fig_rsi, use_container_width=True)
 
-    if show_macd:
+    if subpage == "MACD":
         fig_macd = go.Figure()
         fig_macd.add_trace(go.Scatter(x=df.index, y=df["MACD_12_26"], name="MACD"))
         fig_macd.add_trace(go.Scatter(x=df.index, y=df["MACD_sign_12_26"], name="Signal", line=dict(dash="dot")))
