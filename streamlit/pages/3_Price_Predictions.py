@@ -25,7 +25,7 @@ def predict_prices():
 
     df = pd.read_csv('price_prediction/results/price_predictions.csv', index_col=0)
     predicted_prices = list(df.values.flatten())
-    predicted_prices.insert(0, data.iloc[-1].Close)
+    predicted_prices.insert(0, data.iloc[-10].Close)
 
     current_time = datetime.utcnow()
     current_time = (current_time - timedelta(days=2))
@@ -116,4 +116,3 @@ elif subpage == "Model Accuracy":
 elif subpage == "Training Loss":
     st.header("Training Loss")
     st.write("Show volatility charts here.")
-
