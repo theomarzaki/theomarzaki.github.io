@@ -14,9 +14,10 @@ class Indicators():
         self.historical_data.columns = ['_'.join(col) for col in self.historical_data.columns]
         self.historical_data.columns = [col.split("_")[0] for col in self.historical_data.columns]
         self.historical_data.to_csv('data/historical_data.csv')
+        self.technical_indicator = technical_indicators.TechnicalIndicators(self.historical_data.copy(), self.TICKER)
 
     def technical_indicator(self):
-        technical_indicator = technical_indicators.TechnicalIndicators(self.historical_data.copy(), self.TICKER).calculate_technical_indicators()
+        technical_indicator = self.technical_indicator.calculate_technical_indicators()
         technical_indicator.to_csv('data/technical_indicators.csv')
         return technical_indicator
 

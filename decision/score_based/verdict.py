@@ -1,9 +1,8 @@
 from decision.score_based import technical, market, economic
-from decision import start_of_week_previous, start_of_week_ahead
 from decision.score_based import weights
 import pandas as pd
 import ticker
-from indicators import indicators
+from datetime import datetime, timedelta
 
 
 def getWeightedVerdictFromScore(df, past_weight=1, future_weight=3):
@@ -32,29 +31,32 @@ def changeScoreToVerdict(score):
         return "Hold"
 
 
-def GiveVerdict():
+def GiveVerdict(indicators):
 
-    score_indicators = indicators.Indicators(kwargs=ticker.getTickers())
+    df = pd.read_csv('data/merged_indicators.csv')
+    df = indicators.technical_indicator.update_technical_indicators(df)
+    df = df.loc[:, ~df.columns.duplicated(keep='last')]
 
-    technical_indicators = score_indicators.technical_indicator()
-    market_indicators = score_indicators.market_indicator()
-    economic_indicators = score_indicators.economic_indicator()
+    current_time = datetime.utcnow()
+    start_of_week = (current_time - timedelta(days=3)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+    df = df[(df['Date'] > start_of_week)]
+    df = df.drop_duplicates(subset=['Date'])
 
-    technical_score = technical.make_decisions(technical_indicators).loc[start_of_week_previous:start_of_week_ahead]
-    market_score = market.make_decisions(market_indicators).loc[start_of_week_previous:start_of_week_ahead]
-    economic_score = economic.make_decisions(economic_indicators).loc[start_of_week_previous:start_of_week_ahead]
+    technical_score = technical.make_decisions(df)
+    market_score = market.make_decisions(df)
+    economic_score = economic.make_decisions(df)
 
     technical_verdict = getWeightedVerdictFromScore(technical_score)
     market_verdict = getWeightedVerdictFromScore(market_score)
     economic_verdict = getWeightedVerdictFromScore(economic_score)
 
-    verdict_df = pd.DataFrame(columns=['Indicator', 'Verdict'])
-    verdict_df = pd.concat([pd.DataFrame([['Technical', changeScoreToVerdict(technical_verdict)]], columns=verdict_df.columns), verdict_df])
-    verdict_df = pd.concat([pd.DataFrame([['Market', changeScoreToVerdict(market_verdict)]], columns=verdict_df.columns), verdict_df])
-    verdict_df = pd.concat([pd.DataFrame([['Economic', changeScoreToVerdict(economic_verdict)]], columns=verdict_df.columns), verdict_df])
+    verdict_df = pd.DataFrame(columns=['Indicator', 'Verdict', 'Score'])
+    verdict_df = pd.concat([pd.DataFrame([['Technical', changeScoreToVerdict(technical_verdict), technical_verdict]], columns=verdict_df.columns), verdict_df])
+    verdict_df = pd.concat([pd.DataFrame([['Market', changeScoreToVerdict(market_verdict), market_verdict]], columns=verdict_df.columns), verdict_df])
+    verdict_df = pd.concat([pd.DataFrame([['Economic', changeScoreToVerdict(economic_verdict), economic_verdict]], columns=verdict_df.columns), verdict_df])
 
     total_score = technical_verdict * weights['Technical'] + market_verdict * weights['Market'] + economic_verdict * weights['Economic']
 
-    verdict_df = pd.concat([pd.DataFrame([['Final', changeScoreToVerdict(total_score)]], columns=verdict_df.columns), verdict_df])
+    verdict_df = pd.concat([pd.DataFrame([['Final', changeScoreToVerdict(total_score), total_score]], columns=verdict_df.columns), verdict_df])
     verdict_df.set_index('Indicator')
     return verdict_df

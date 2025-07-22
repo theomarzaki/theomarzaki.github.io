@@ -74,3 +74,27 @@ class TechnicalIndicators():
         df = self.calculate_ichimoku_cloud(df)
 
         return df
+
+    def update_technical_indicators(self, df):
+        # Calculate Moving Averages
+        df = self.calculate_moving_averages(df, period=20)
+
+        # Calculate RSI
+        df = self.calculate_rsi(df, period=14)
+
+        # Calculate Bollinger Bands
+        df = self.calculate_bollinger_bands(df, period=20, std_dev=2)
+
+        # Calculate MACD
+        df = self.calculate_macd(df, fast_period=12, slow_period=26, signal_period=9)
+
+        # Calculate Stochastic Oscillator
+        df = self.calculate_stochastic_oscillator(df, k_period=14, d_period=3)
+
+        # Calculate On-Balance Volume (OBV)
+        df = self.calculate_obv(df)
+
+        # Calculate Ichimoku Cloud
+        df = self.calculate_ichimoku_cloud(df)
+
+        return df
