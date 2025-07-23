@@ -16,17 +16,17 @@ class Indicators():
         self.historical_data.to_csv('data/historical_data.csv')
         self.technical_indicator = technical_indicators.TechnicalIndicators(self.historical_data.copy(), self.TICKER)
 
-    def technical_indicator(self):
+    def make_technical_indicator(self):
         technical_indicator = self.technical_indicator.calculate_technical_indicators()
         technical_indicator.to_csv('data/technical_indicators.csv')
         return technical_indicator
 
-    def market_indicator(self):
+    def make_market_indicator(self):
         market_indicator = market_indicators.MarketIndicators(self.historical_data.copy(), self.KRAKEN_TICKER).calculate_market_indicators()
         market_indicator.to_csv('data/market_indicators.csv')
         return market_indicator
 
-    def economic_indicator(self):
+    def make_economic_indicator(self):
         economic_indicator = economic_indicators.EconomicIndicators(self.historical_data.copy()).calculate_economic_indicators()
         economic_indicator.to_csv('data/economic_indicators.csv')
         return economic_indicator

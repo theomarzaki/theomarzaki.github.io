@@ -15,11 +15,14 @@ INPUT_DIM = 36
 
 
 if __name__ == "__main__":
-    # for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):
-    #     print(F"Ticker: {yf_ticker}")
-    #     ticker.setTickers(yf_ticker, kraken_ticker)
+    for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):
+        print(F"Ticker: {yf_ticker}")
+        ticker.setTickers(yf_ticker, kraken_ticker)
 
     indicators = indicators.Indicators(kwargs=ticker.getTickers())
+    indicators.make_technical_indicator()
+    indicators.make_market_indicator()
+    indicators.make_economic_indicator()
 
     data_manipulation.manipulate_data()
 
