@@ -1,5 +1,5 @@
 ,Indicator,Verdict,Score
-0,Final,Hold,0.0
+0,Final,Sell,-12.2
 0,Economic,Hold,0
-0,Market,Hold,0
-0,Technical,Hold,0
+0,Market,Sell,-24
+0,Technical,Sell,-10

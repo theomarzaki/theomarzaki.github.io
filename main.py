@@ -19,24 +19,24 @@ if __name__ == "__main__":
         print(F"Ticker: {yf_ticker}")
         ticker.setTickers(yf_ticker, kraken_ticker)
 
-    # indicators = indicators.Indicators(kwargs=ticker.getTickers())
-    # indicators.make_technical_indicator()
-    # indicators.make_market_indicator()
-    # indicators.make_economic_indicator()
+    indicators = indicators.Indicators(kwargs=ticker.getTickers())
+    indicators.make_technical_indicator()
+    indicators.make_market_indicator()
+    indicators.make_economic_indicator()
 
-    # data_manipulation.manipulate_data()
+    data_manipulation.manipulate_data()
 
     model = LSTMRegressor(input_dim=INPUT_DIM)
 
     # Train Model
-    # train.train(model)
+    train.train(model)
 
     # Test Model
-    # test.test(model)
+    test.test(model)
 
     # Make Predictions
     predict.predict(model)
 
-    # verdict = verdict.GiveVerdict(indicators)
+    verdict = verdict.GiveVerdict(indicators)
     # save suggestions
-    # verdict.to_csv('data/verdict.csv')
+    verdict.to_csv('data/verdict.csv')

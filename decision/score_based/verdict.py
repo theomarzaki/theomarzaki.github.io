@@ -33,18 +33,26 @@ def changeScoreToVerdict(score):
 
 def GiveVerdict(indicators):
 
-    df = pd.read_csv('data/merged_indicators.csv')
-    df = indicators.technical_indicator.update_technical_indicators(df)
-    df = df.loc[:, ~df.columns.duplicated(keep='last')]
-
     current_time = datetime.utcnow()
+
+    df = pd.read_csv('data/merged_indicators.csv')
+
+    last_month = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+    df = df[(df['Date'] > last_month)]
+
+    df.drop(columns=['SMA_20', 'EMA_20',
+                     'RSI_14', 'hband', 'lband', 'MACD_12_26', 'MACD_sign_12_26', 'stoch_k',
+                     'OBV', 'ichimoku_a_9_26', 'ichimoku_b_9_26'], inplace=True)
+
+    df = indicators.technical_indicator.update_technical_indicators(df.copy())
+
     start_of_week = (current_time - timedelta(days=3)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     df = df[(df['Date'] > start_of_week)]
     df = df.drop_duplicates(subset=['Date'])
 
-    technical_score = technical.make_decisions(df)
-    market_score = market.make_decisions(df)
-    economic_score = economic.make_decisions(df)
+    technical_score = technical.make_decisions(df.copy())
+    market_score = market.make_decisions(df.copy())
+    economic_score = economic.make_decisions(df.copy())
 
     technical_verdict = getWeightedVerdictFromScore(technical_score)
     market_verdict = getWeightedVerdictFromScore(market_score)

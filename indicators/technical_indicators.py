@@ -10,30 +10,30 @@ class TechnicalIndicators():
 
     # Function to calculate Moving Averages (SMA and EMA)
     def calculate_moving_averages(self, df, period=20):
-        df[f'SMA_{period}'] = ta.trend.SMAIndicator(df['Close'], window=period).sma_indicator()
-        df[f'EMA_{period}'] = ta.trend.EMAIndicator(df['Close'], window=period).ema_indicator()
+        df[f'SMA_{period}'] = ta.trend.SMAIndicator(df['Close'], window=period, fillna=True).sma_indicator()
+        df[f'EMA_{period}'] = ta.trend.EMAIndicator(df['Close'], window=period, fillna=True).ema_indicator()
         return df
 
     # Function to calculate Relative Strength Index (RSI)
     def calculate_rsi(self, df, period=14):
-        df[f'RSI_{period}'] = ta.momentum.RSIIndicator(df['Close'], window=period).rsi()
+        df[f'RSI_{period}'] = ta.momentum.RSIIndicator(df['Close'], window=period, fillna=True).rsi()
         return df
 
     # Function to calculate Bollinger Bands
     def calculate_bollinger_bands(self, df, period=20, std_dev=2):
-        bbands = ta.volatility.BollingerBands(df['Close'], window=period, window_dev=std_dev)
+        bbands = ta.volatility.BollingerBands(df['Close'], window=period, window_dev=std_dev, fillna=True)
         df = pd.concat([df, bbands.bollinger_hband(), bbands.bollinger_lband()], axis=1)
         return df
 
     # Function to calculate MACD
     def calculate_macd(self, df, fast_period=12, slow_period=26, signal_period=9):
-        macd = ta.trend.MACD(df['Close'], window_fast=fast_period, window_slow=slow_period, window_sign=signal_period)
+        macd = ta.trend.MACD(df['Close'], window_fast=fast_period, window_slow=slow_period, window_sign=signal_period, fillna=True)
         df = pd.concat([df, macd.macd(), macd.macd_signal()], axis=1)
         return df
 
     # Function to calculate Stochastic Oscillator
     def calculate_stochastic_oscillator(self, df, k_period=14, d_period=3):
-        stoch = ta.momentum.StochasticOscillator(df['High'], df['Low'], df['Close'], window=k_period, smooth_window=d_period)
+        stoch = ta.momentum.StochasticOscillator(df['High'], df['Low'], df['Close'], window=k_period, smooth_window=d_period, fillna=True)
         df = pd.concat([df, stoch.stoch()], axis=1)
         return df
 
