@@ -15,9 +15,9 @@ INPUT_DIM = 36
 
 
 if __name__ == "__main__":
-    for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):
-        print(F"Ticker: {yf_ticker}")
-        ticker.setTickers(yf_ticker, kraken_ticker)
+    # for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):
+    #     print(F"Ticker: {yf_ticker}")
+    #     ticker.setTickers(yf_ticker, kraken_ticker)
 
     indicators = indicators.Indicators(kwargs=ticker.getTickers())
 
@@ -26,10 +26,10 @@ if __name__ == "__main__":
     model = LSTMRegressor(input_dim=INPUT_DIM)
 
     # Train Model
-    train.train(model)
+    # train.train(model)
 
     # Test Model
-    test.test(model)
+    # test.test(model)
 
     # Make Predictions
     predict.predict(model)
