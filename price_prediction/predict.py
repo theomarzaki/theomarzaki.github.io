@@ -9,13 +9,14 @@ def predict(model):
 
     WINDOW_SIZE = 7
 
-    data = pd.read_csv('data/merged_indicators.csv', index_col=0)
-    updated_data = data.copy()
+    data = pd.read_csv('data/merged_indicators.csv')
 
     current_time = datetime.utcnow()
-    start_of_week_previous = (current_time - timedelta(days=WINDOW_SIZE)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
-    data = data[(data['Date'] > start_of_week_previous)]
+    start_of_week_previous = (current_time - timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+    start_of_week_ahead = (current_time).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+    data = data[(data['Date'] > start_of_week_previous) & (data['Date'] < start_of_week_ahead)]
     data = data.drop_duplicates(subset=['Date'])
+    updated_data = data.copy()
     data.drop(columns=['Date'], inplace=True)
 
     model.load_state_dict(torch.load('artifacts/model.save'))
