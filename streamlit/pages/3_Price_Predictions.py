@@ -52,7 +52,7 @@ if subpage == "Price Predictions":
     ))
     fig.add_trace(go.Scatter(
         x=data.index,
-        y=data["predicted_close"],
+        y=data["Close"],
         name="Predicted Close",
         line=dict(color="red", dash="dash")
     ))
