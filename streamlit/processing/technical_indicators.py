@@ -8,8 +8,7 @@ import pandas as pd
 # }
 
 
-def getTechnicalIndicatorsFromDate(selected_date):
-    df = pd.read_csv('data/technical_indicators.csv')
+def getTechnicalIndicatorsFromDate(selected_date, df):
     snapshot = df.loc[selected_date]
     kpis = {
         "RSI": (snapshot['RSI_14'], "PlaceHolder"),

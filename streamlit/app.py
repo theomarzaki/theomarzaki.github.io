@@ -35,14 +35,15 @@ macro_indicators = {
 
 
 df = load_data()
+data = pd.read_csv('data/merged_indicators.csv')
 
 current_time = datetime.utcnow()
 start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
 # Filter to just those dates
-valid_dates = df.loc[(df.Date >= start_of_week_ahead)].index
+valid_dates = data.loc[(data.Date >= start_of_week_ahead)].index
 selected_date = st.selectbox("Choose a date", options=valid_dates[::-1])
 
-technical_indicators = getTechnicalIndicatorsFromDate(selected_date)
+technical_indicators = getTechnicalIndicatorsFromDate(selected_date, data)
 
 tech_label = df[(df['Indicator'] == "Technical")].Verdict.values[0]
 market_label = df[(df['Indicator'] == "Market")].Verdict.values[0]
