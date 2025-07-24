@@ -67,6 +67,8 @@ marcro_indicators = {
     "PPP Adjustment (US)": (norm_snapshot["ppp_adjusted_price"], "PlaceHolder"),
 }
 
+st.markdown(macro_indicators)
+
 
 # technical_indicators = getTechnicalIndicatorsFromDate(snapshot)
 
