@@ -94,7 +94,9 @@ def train(model):
     # After training
     model.load_state_dict(best_model_state)
     plt.ioff()
-    plt.show()
+    plt.draw()
+    plt.pause(5)   # keeps the plot open for 5 seconds
+    plt.close()
 
     torch.save(model.state_dict(), 'artifacts/model.save')
 

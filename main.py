@@ -38,5 +38,4 @@ if __name__ == "__main__":
     predict.predict(model)
 
     verdict = verdict.GiveVerdict(indicators)
-    # save suggestions
     verdict.to_csv('data/verdict.csv')
