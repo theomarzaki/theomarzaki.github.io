@@ -43,7 +43,7 @@ start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=
 data = data.drop_duplicates(subset=['Date'])
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
 selected_date = st.selectbox("Choose a date", options=valid_dates[::-1])
-snapshot = data.loc[selected_date]
+snapshot = data[data['Date'] == selected_date]
 
 
 technical_indicators = getTechnicalIndicatorsFromDate(snapshot)
