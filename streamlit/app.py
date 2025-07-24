@@ -63,7 +63,7 @@ market_indicators = {
 marcro_indicators = {
     "Inflation Adjusted Return (US)": (norm_snapshot["inflation_adjusted_return"], "PlaceHolder"),
     "Real Interest Rate (US)": (norm_snapshot["real_interest_rate"], "PlaceHolder"),
-    "Unemployment Rate (US)": (norm_snapshot["unemployment_rate"], "PlaceHolder"),
+    "Unemployment Rate Impact (US)": (norm_snapshot["unemployment_rate_impact"], "PlaceHolder"),
     "PPP Adjustment (US)": (norm_snapshot["ppp_adjusted_price"], "PlaceHolder"),
 }
 
