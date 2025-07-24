@@ -23,17 +23,6 @@ def load_data():
     return data
 
 
-market_indicators = {
-    "Funding Rate": (0.015, "Neutral", "→"),
-    "Open Interest": ("Increasing", "Bullish", "↑")
-}
-
-macro_indicators = {
-    "CPI YoY": (3.2, "High Inflation", "↓"),
-    "DXY": (104.5, "Strong Dollar", "↓")
-}
-
-
 df = load_data()
 data = pd.read_csv('data/merged_indicators.csv')
 
@@ -60,7 +49,7 @@ market_indicators = {
     "BID ASK SPREAD": (norm_snapshot["bid_ask_spread"], "PlaceHolder"),
 }
 
-marcro_indicators = {
+macro_indicators = {
     "Inflation Adjusted Return (US)": (norm_snapshot["inflation_adjusted_return"], "PlaceHolder"),
     "Real Interest Rate (US)": (norm_snapshot["real_interest_rate"], "PlaceHolder"),
     "Unemployment Rate Impact (US)": (norm_snapshot["unemployment_rate_impact"], "PlaceHolder"),
