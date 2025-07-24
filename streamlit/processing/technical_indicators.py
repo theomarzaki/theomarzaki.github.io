@@ -1,5 +1,3 @@
-import pandas as pd
-
 
 # technical_indicators = {
 #     "RSI": (34, "Oversold", "↑"),
@@ -8,7 +6,7 @@ import pandas as pd
 # }
 
 
-def getTechnicalIndicatorsFromDate(selected_date, df):
+def getTechnicalIndicatorsFromDate(snapshot):
     snapshot = df.loc[selected_date]
     kpis = {
         "RSI": (snapshot['RSI_14'], "PlaceHolder"),
