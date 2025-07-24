@@ -10,6 +10,7 @@ def predict(model):
     WINDOW_SIZE = 7
 
     data = pd.read_csv('data/merged_indicators.csv', index_col=0)
+    updated_data = data.copy()
 
     current_time = datetime.utcnow()
     start_of_week_previous = (current_time - timedelta(days=7)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
