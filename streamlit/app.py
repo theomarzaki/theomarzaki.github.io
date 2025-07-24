@@ -44,7 +44,16 @@ data = data.drop_duplicates(subset=['Date'])
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
 selected_date = st.selectbox("Choose a date", options=valid_dates[::-1])
 snapshot = data[data['Date'] == selected_date].iloc[0]
-technical_indicators = getTechnicalIndicatorsFromDate(snapshot)
+
+technical_indicators = {
+    "RSI": (snapshot['RSI_14'], "PlaceHolder"),
+    "SMA": (snapshot['SMA_20'], "PlaceHolder"),
+    "EMA": (snapshot['EMA_20'], "PlaceHolder"),
+    "MACD": (snapshot['MACD_12_26'], "PlaceHolder"),
+}
+
+
+# technical_indicators = getTechnicalIndicatorsFromDate(snapshot)
 
 tech_label = df[(df['Indicator'] == "Technical")].Verdict.values[0]
 market_label = df[(df['Indicator'] == "Market")].Verdict.values[0]
