@@ -44,12 +44,27 @@ data = data.drop_duplicates(subset=['Date'])
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
 selected_date = st.selectbox("Choose a date: \n *only affects technical indicators", options=valid_dates[::-1])
 snapshot = data[data['Date'] == selected_date].iloc[0]
+norm_snapshot = data[data['Date'] == current_time.replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+                     ].iloc[0]
 
 technical_indicators = {
     "RSI": (snapshot['RSI_14'], "PlaceHolder"),
     "SMA": (snapshot['SMA_20'], "PlaceHolder"),
     "EMA": (snapshot['EMA_20'], "PlaceHolder"),
     "MACD": (snapshot['MACD_12_26'], "PlaceHolder"),
+}
+
+market_indicators = {
+    "OBV": (norm_snapshot["OBV"], "PlaceHolder"),
+    "VWAP": (norm_snapshot["vwap"], "PlaceHolder"),
+    "BID ASK SPREAD": (norm_snapshot["bid_ask_spread"], "PlaceHolder"),
+}
+
+marcro_indicators = {
+    "Inflation Adjusted Return (US)": (norm_snapshot["inflation_adjusted_return"], "PlaceHolder"),
+    "Real Interest Rate (US)": (norm_snapshot["real_interest_rate"], "PlaceHolder"),
+    "Unemployment Rate (US)": (norm_snapshot["unemployment_rate"], "PlaceHolder"),
+    "PPP Adjustment (US)": (norm_snapshot["ppp_adjusted_price"], "PlaceHolder"),
 }
 
 
@@ -75,13 +90,13 @@ with st.expander("See technical indicators"):
 
 # # --- Market ---
 st.markdown(verdict_card("Market", market_label, market_color), unsafe_allow_html=True)
-# with st.expander("See market indicators"):
-#     st.markdown(render_indicator_table(market_indicators), unsafe_allow_html=True)
-#
+with st.expander("See market indicators"):
+    st.markdown(render_indicator_table(market_indicators), unsafe_allow_html=True)
+
 # # --- Macro ---
 st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=True)
-# with st.expander("See macro indicators"):
-#     st.markdown(render_indicator_table(macro_indicators), unsafe_allow_html=True)
+with st.expander("See macro indicators"):
+    st.markdown(render_indicator_table(macro_indicators), unsafe_allow_html=True)
 
 total_score = 0.99
 # --- Final ---
