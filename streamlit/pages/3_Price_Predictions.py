@@ -48,8 +48,6 @@ if subpage == "Price Predictions":
         x=df.index,
         y=df["Close"],
         name="Actual Close",
-        mode="lines+markers",
-        marker=dict(size=8, color="red"),
         line=dict(color="black")
     ))
     fig.add_trace(go.Scatter(
@@ -57,7 +55,7 @@ if subpage == "Price Predictions":
         y=data["Close"],
         name="Predicted Close",
         mode="lines+markers",
-        marker=dict(size=8, color="red"),
+        marker=dict(size=6, color="red"),
         line=dict(color="red", dash="dash")
     ))
 
