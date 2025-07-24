@@ -39,7 +39,7 @@ df = load_data()
 current_time = datetime.utcnow()
 start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
 # Filter to just those dates
-valid_dates = df.loc[(df.index >= start_of_week_ahead)].index
+valid_dates = df.loc[(df.Date >= start_of_week_ahead)].index
 selected_date = st.selectbox("Choose a date", options=valid_dates[::-1])
 
 technical_indicators = getTechnicalIndicatorsFromDate(selected_date)
@@ -62,15 +62,15 @@ st.markdown(verdict_card("Technical", tech_label, tech_color), unsafe_allow_html
 with st.expander("See technical indicators"):
     st.markdown(render_indicator_table(technical_indicators), unsafe_allow_html=True)
 
-# --- Market ---
-st.markdown(verdict_card("Market", market_label, market_color), unsafe_allow_html=True)
-with st.expander("See market indicators"):
-    st.markdown(render_indicator_table(market_indicators), unsafe_allow_html=True)
-
-# --- Macro ---
-st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=True)
-with st.expander("See macro indicators"):
-    st.markdown(render_indicator_table(macro_indicators), unsafe_allow_html=True)
+# # --- Market ---
+# st.markdown(verdict_card("Market", market_label, market_color), unsafe_allow_html=True)
+# with st.expander("See market indicators"):
+#     st.markdown(render_indicator_table(market_indicators), unsafe_allow_html=True)
+#
+# # --- Macro ---
+# st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=True)
+# with st.expander("See macro indicators"):
+#     st.markdown(render_indicator_table(macro_indicators), unsafe_allow_html=True)
 
 total_score = 0.99
 # --- Final ---
