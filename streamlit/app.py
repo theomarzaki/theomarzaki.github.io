@@ -40,6 +40,7 @@ data = pd.read_csv('data/merged_indicators.csv')
 current_time = datetime.utcnow()
 start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
 # Filter to just those dates
+data = data.drop_duplicates(subset=['Date'])
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
 selected_date = st.selectbox("Choose a date", options=valid_dates[::-1])
 
