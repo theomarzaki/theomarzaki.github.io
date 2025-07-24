@@ -42,7 +42,7 @@ start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=
 # Filter to just those dates
 data = data.drop_duplicates(subset=['Date'])
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
-selected_date = st.selectbox("Choose a date: (only affects technical indicators)", options=valid_dates[::-1])
+selected_date = st.selectbox("Choose a date: \n *only affects technical indicators", options=valid_dates[::-1])
 snapshot = data[data['Date'] == selected_date].iloc[0]
 
 technical_indicators = {
@@ -74,12 +74,12 @@ with st.expander("See technical indicators"):
     st.markdown(render_indicator_table(technical_indicators), unsafe_allow_html=True)
 
 # # --- Market ---
-# st.markdown(verdict_card("Market", market_label, market_color), unsafe_allow_html=True)
+st.markdown(verdict_card("Market", market_label, market_color), unsafe_allow_html=True)
 # with st.expander("See market indicators"):
 #     st.markdown(render_indicator_table(market_indicators), unsafe_allow_html=True)
 #
 # # --- Macro ---
-# st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=True)
+st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=True)
 # with st.expander("See macro indicators"):
 #     st.markdown(render_indicator_table(macro_indicators), unsafe_allow_html=True)
 
