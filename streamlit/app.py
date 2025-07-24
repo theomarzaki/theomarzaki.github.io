@@ -42,7 +42,7 @@ start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=
 # Filter to just those dates
 data = data.drop_duplicates(subset=['Date'])
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
-selected_date = st.selectbox("Choose a date", options=valid_dates[::-1])
+selected_date = st.selectbox("Choose a date: (only affects technical indicators)", options=valid_dates[::-1])
 snapshot = data[data['Date'] == selected_date].iloc[0]
 
 technical_indicators = {

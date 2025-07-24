@@ -28,40 +28,23 @@ def verdict_card(title, label, bg_color):
 
 def render_indicator_table(indicators):
     def get_comment_color(comment):
-        comment_lower = comment.lower()
-        if "buy" in comment_lower or "bearish" in comment_lower:
-            return "#d4f4dd"  # soft green
-        elif "sell" in comment_lower or "bullish" in comment_lower:
-            return "#f9d6d5"  # soft red
-        elif "hold" in comment_lower or "neutral" in comment_lower:
-            return "#f0f0f0"  # soft gray
-        else:
-            return "white"    # fallback
+        c = comment.lower()
+        if "buy" in c or "bullish" in c:
+            return "#d4f4dd"
+        elif "sell" in c or "bearish" in c:
+            return "#f9d6d5"
+        elif "hold" in c or "neutral" in c:
+            return "#f0f0f0"
+        return "white"
 
     rows = ""
     for name, (value, comment) in indicators.items():
-        comment_color = get_comment_color(comment)
-        rows += f"""
-        <tr>
-            <td style='padding: 6px 12px;'>{name}</td>
-            <td style='padding: 6px 12px;'>{value}</td>
-            <td style='padding: 6px 12px; background-color: {comment_color};'>{comment}</td>
-        </tr>
-        """
+        bg = get_comment_color(comment)
+        rows += f"<tr><td>{name}</td><td>{value}</td><td style='background-color:{bg};'>{comment}</td></tr>"
 
     return f"""
-    <div style='overflow-x:auto;'>
-        <table style='width:100%; font-size:0.9rem; border-collapse:separate; border-spacing: 0 6px;'>
-            <thead>
-                <tr style='background-color:#f0f2f6; text-align:left;'>
-                    <th style='padding:8px;'>Indicator</th>
-                    <th style='padding:8px;'>Value</th>
-                    <th style='padding:8px;'>Comment</th>
-                </tr>
-            </thead>
-            <tbody>
-                {rows}
-            </tbody>
-        </table>
-    </div>
+    <table style='width:100%; font-size:0.9rem;'>
+        <tr><th>Indicator</th><th>Value</th><th>Comment</th></tr>
+        {rows}
+    </table>
     """
