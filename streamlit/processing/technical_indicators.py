@@ -7,14 +7,13 @@
 
 
 def getTechnicalIndicatorsFromDate(snapshot):
-    # kpis = {
-    #     "RSI": (snapshot['RSI_14'], "PlaceHolder"),
-    #     "SMA": (snapshot['SMA_20'], "PlaceHolder"),
-    #     "EMA": (snapshot['EMA_20'], "PlaceHolder"),
-    #     "MACD": (snapshot['MACD_12_26'], "PlaceHolder"),
-    #
-    #
-    # }
+    kpis = {
+        "RSI": (snapshot['RSI_14'], "PlaceHolder"),
+        "SMA": (snapshot['SMA_20'], "PlaceHolder"),
+        "EMA": (snapshot['EMA_20'], "PlaceHolder"),
+        "MACD": (snapshot['MACD_12_26'], "PlaceHolder"),
 
-    return snapshot.to_dict()
-    # return kpis
+
+    }
+
+    return kpis
