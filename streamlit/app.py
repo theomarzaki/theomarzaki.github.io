@@ -1,6 +1,9 @@
 import streamlit as st
 from ui.sidebar import render_sidebar
+from ui.dashboard_html import verdict_card, render_indicator_table
 import pandas as pd
+from datetime import datetime, timedelta
+from processing.technical_indicators import getTechnicalIndicatorsFromDate
 
 render_sidebar()
 st.set_page_config(layout="wide")
@@ -15,39 +18,10 @@ def signal_label(signal):
         return "grey"
 
 
-def verdict_card(title, label, bg_color):
-    return f"""
-    <div style="
-        background-color: {bg_color};
-        border-radius: 0.75rem;
-        padding: 1.5rem;
-        margin-bottom: 0.5rem;
-        text-align: center;
-        color: white;
-        font-weight: bold;
-        font-size: 1.5rem;
-        box-shadow: 0px 4px 10px rgba(0,0,0,0.15);
-        height: 120px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    ">
-        <div style="font-size: 1rem; margin-bottom: 0.5rem;">{title}</div>
-        {label}
-    </div>
-    """
-
-
 def load_data():
     data = pd.read_csv('data/verdict.csv')
     return data
 
-
-technical_indicators = {
-    "RSI": (34, "Oversold", "↑"),
-    "MACD": (-1.2, "Bearish", "↓"),
-    "MA Crossover": ("No", "Neutral", "→")
-}
 
 market_indicators = {
     "Funding Rate": (0.015, "Neutral", "→"),
@@ -62,6 +36,14 @@ macro_indicators = {
 
 df = load_data()
 
+current_time = datetime.utcnow()
+start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+# Filter to just those dates
+valid_dates = df.loc[(df.index >= start_of_week_ahead)].index
+selected_date = st.selectbox("Choose a date", options=valid_dates[::-1])
+
+technical_indicators = getTechnicalIndicatorsFromDate(selected_date)
+
 tech_label = df[(df['Indicator'] == "Technical")].Verdict.values[0]
 market_label = df[(df['Indicator'] == "Market")].Verdict.values[0]
 macro_label = df[(df['Indicator'] == "Economic")].Verdict.values[0]
@@ -72,19 +54,6 @@ tech_color = signal_label(tech_label)
 market_color = signal_label(market_label)
 macro_color = signal_label(macro_label)
 total_color = signal_label(total_label)
-
-
-# Table formatter
-def render_indicator_table(indicators):
-    rows = ""
-    for name, (value, comment, arrow) in indicators.items():
-        rows += f"<tr><td>{name}</td><td>{value}</td><td>{comment}</td><td>{arrow}</td></tr>"
-    return f"""
-    <table style='width:100%; text-align:left; font-size: 0.9rem; border-spacing: 0 4px;'>
-        <tr><th>Indicator</th><th>Value</th><th>Comment</th><th>↕</th></tr>
-        {rows}
-    </table>
-    """
 
 
 st.title("BTC Market Suggested Actions Based on Signals & Price Predictions")
