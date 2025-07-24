@@ -9,13 +9,13 @@ render_sidebar()
 st.set_page_config(layout="wide")
 
 
-@st.cache_data
 def load_data():
     df = pd.read_csv('data/merged_indicators.csv')
     current_time = datetime.utcnow()
     start_of_week_previous = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     start_of_week_ahead = (current_time).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     df = df[(df['Date'] > start_of_week_previous) & (df['Date'] <= start_of_week_ahead)]
+    df = df.drop_duplicates(subset=['Date'])
     df.set_index("Date", inplace=True)
     return df
 
