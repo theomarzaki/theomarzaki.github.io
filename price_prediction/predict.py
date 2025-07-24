@@ -17,7 +17,6 @@ def predict(model):
     start_of_week_ahead = (current_time).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     data = data[(data['Date'] > start_of_week_previous) & (data['Date'] < start_of_week_ahead)]
     data = data.drop_duplicates(subset=['Date'])
-    updated_data = data.copy()
     data.drop(columns=['Date'], inplace=True)
 
     model.load_state_dict(torch.load('artifacts/model.save'))
