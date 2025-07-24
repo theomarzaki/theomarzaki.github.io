@@ -40,11 +40,12 @@ def render_indicator_table(indicators):
     rows = ""
     for name, (value, comment) in indicators.items():
         bg = get_comment_color(comment)
+        formatted_value = f"{value:.2f}"  # round to 2 decimal places
         # No multiline strings here, keep it simple
         rows += (
             f"<tr>"
             f"<td style='padding:6px 12px;'>{name}</td>"
-            f"<td style='padding:6px 12px;'>{value}</td>"
+            f"<td style='padding:6px 12px;'>{formatted_value}</td>"
             f"<td style='padding:6px 12px; background-color:{bg};'>{comment}</td>"
             f"</tr>"
         )
