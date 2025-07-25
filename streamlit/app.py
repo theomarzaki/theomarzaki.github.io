@@ -34,7 +34,7 @@ data = data.drop_duplicates(subset=['Date'])
 data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%Y-%m-%d')
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
 selected_date = st.selectbox("Choose a date:", options=valid_dates[::-1])
-st.markdown("**Only affects technical indicators.*")
+st.markdown("**Only affects technical and market indicators.*")
 snapshot = data[data['Date'] == selected_date].iloc[-1]
 if snapshot.empty:
     st.error(f"No data for selected date: {selected_date}")
@@ -49,9 +49,9 @@ technical_indicators = {
 }
 
 market_indicators = {
-    "OBV": (round(norm_snapshot["OBV"], 2), obv_comment(norm_snapshot["OBV"], data[data['Date'] == start_of_week_ahead].iloc[-1].OBV)),
-    "VWAP": (round(norm_snapshot["vwap"], 2), vwap_comment(norm_snapshot["Close"], norm_snapshot["vwap"])),
-    "BID ASK SPREAD": (round(norm_snapshot["bid_ask_spread"], 2), bid_ask_comment(norm_snapshot["bid_ask_spread"])),
+    "OBV": (round(snapshot["OBV"], 2), obv_comment(snapshot["OBV"], data[data['Date'] == start_of_week_ahead].iloc[-1].OBV)),
+    "VWAP": (round(snapshot["vwap"], 2), vwap_comment(snapshot["Close"], norm_snapshot["vwap"])),
+    "BID ASK SPREAD": (round(snapshot["bid_ask_spread"], 2), bid_ask_comment(snapshot["bid_ask_spread"])),
 }
 
 macro_indicators = {
