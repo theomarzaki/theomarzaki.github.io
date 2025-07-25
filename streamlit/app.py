@@ -5,6 +5,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 from processing.technical_indicators import rsi_comment, ma_comment, macd_comment
 from processing.market_indicators import vwap_comment, obv_comment, bid_ask_comment
+from processing.macro_indicators import get_real_interest_rate_comment, get_inflation_adjusted_return_comment, get_ppp_adjustment_comment, get_unemployment_rate_impact_comment
 
 render_sidebar()
 st.set_page_config(layout="wide")
@@ -56,10 +57,22 @@ market_indicators = {
 }
 
 macro_indicators = {
-    "Inflation Adjusted Return (US)": (norm_snapshot["inflation_adjusted_return"], "PlaceHolder"),
-    "Real Interest Rate (US)": (norm_snapshot["real_interest_rate"], "PlaceHolder"),
-    "Unemployment Rate Impact (US)": (norm_snapshot["unemployment_rate_impact"], "PlaceHolder"),
-    "PPP Adjustment (US)": (norm_snapshot["ppp_adjusted_price"], "PlaceHolder"),
+    "Inflation Adjusted Return (US)": (
+        round(norm_snapshot["inflation_adjusted_return"], 2),
+        get_inflation_adjusted_return_comment(norm_snapshot["inflation_adjusted_return"])
+    ),
+    "Real Interest Rate (US)": (
+        round(norm_snapshot["real_interest_rate"], 2),
+        get_real_interest_rate_comment(norm_snapshot["real_interest_rate"])
+    ),
+    "Unemployment Rate Impact (US)": (
+        round(norm_snapshot["unemployment_rate_impact"], 2),
+        get_unemployment_rate_impact_comment(norm_snapshot["unemployment_rate_impact"])
+    ),
+    "PPP Adjustment (US)": (
+        round(norm_snapshot["ppp_adjusted_price"], 2),
+        get_ppp_adjustment_comment(norm_snapshot["ppp_adjusted_price"])
+    ),
 }
 
 tech_label = df[(df['Indicator'] == "Technical")].Verdict.values[0]
