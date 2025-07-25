@@ -119,6 +119,7 @@ elif subpage == "Training Loss":
         fig.update_layout(
             title='Training Loss Over Epochs',
             xaxis_title='Epoch',
+            yaxis_type="log",
             yaxis_title='Loss',
             template='plotly_white',
             height=800
