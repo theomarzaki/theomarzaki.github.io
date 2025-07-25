@@ -30,9 +30,12 @@ current_time = datetime.utcnow()
 start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
 # Filter to just those dates
 data = data.drop_duplicates(subset=['Date'])
+data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%Y-%m-%d')
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
 selected_date = st.selectbox("Choose a date: \n *only affects technical indicators", options=valid_dates[::-1])
-snapshot = data[data['Date'] == selected_date].iloc[0]
+snapshot = data[data['Date'] == selected_date].iloc[-1]
+if snapshot.empty:
+    st.error(f"No data for selected date: {selected_date}")
 norm_snapshot = data[data['Date'] == current_time.replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
                      ].iloc[0]
 
@@ -55,8 +58,6 @@ macro_indicators = {
     "Unemployment Rate Impact (US)": (norm_snapshot["unemployment_rate_impact"], "PlaceHolder"),
     "PPP Adjustment (US)": (norm_snapshot["ppp_adjusted_price"], "PlaceHolder"),
 }
-
-# technical_indicators = getTechnicalIndicatorsFromDate(snapshot)
 
 tech_label = df[(df['Indicator'] == "Technical")].Verdict.values[0]
 market_label = df[(df['Indicator'] == "Market")].Verdict.values[0]
