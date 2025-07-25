@@ -1,6 +1,6 @@
 import streamlit as st
 from ui.sidebar import render_sidebar
-from ui.dashboard_html import verdict_card, render_indicator_table
+from ui.dashboard_html import verdict_card, render_indicator_table, render_final_table
 import pandas as pd
 from datetime import datetime, timedelta
 from processing.technical_indicators import rsi_comment, ma_comment, macd_comment
@@ -107,14 +107,16 @@ st.markdown(verdict_card("Macro", macro_label, macro_color), unsafe_allow_html=T
 with st.expander("See macro indicators"):
     st.markdown(render_indicator_table(macro_indicators), unsafe_allow_html=True)
 
+final_indicators = {
+    "Technical": ("33%", tech_label),
+    "Market": ("33%", market_label),
+    "Macro": ("33%", macro_label),
+    "Total": ("99%", total_label)
+}
+
+
 total_score = 0.99
 # --- Final ---
 st.markdown(verdict_card("Final Suggestion", total_label, total_color), unsafe_allow_html=True)
-with st.expander("Breakdown of total score"):
-    st.markdown(f"""
-    - **Technical** (33%): {tech_label}
-    - **Market** (33%): {market_label}
-    - **Macro** (33%): {macro_label}
-
-    **Combined Score:** {total_score:.2f} → **{total_label}**
-    """)
+with st.expander("Final score breakdown"):
+    st.markdown(render_final_table(final_indicators), unsafe_allow_html=True)
