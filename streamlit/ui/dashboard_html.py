@@ -29,9 +29,9 @@ def verdict_card(title, label, bg_color):
 def render_indicator_table(indicators):
     def get_comment_color(comment):
         c = comment.lower()
-        if "buy" in c:
+        if "buy" in c or "bullish" in c:
             return "#d4f4dd"  # soft green
-        elif "sell" in c:
+        elif "sell" in c or "bearish" in c:
             return "#f9d6d5"  # soft red
         elif "hold" in c or "neutral" in c:
             return "#f0f0f0"  # soft gray
