@@ -15,3 +15,30 @@ def getTechnicalIndicatorsFromDate(snapshot):
     }
 
     return kpis
+
+
+def rsi_comment(rsi):
+    if rsi > 70:
+        return "Overbought – possible reversal"
+    elif rsi < 30:
+        return "Oversold – potential rally"
+    else:
+        return "Neutral momentum"
+
+
+def ma_comment(price, sma, ema):
+    if price > sma and price > ema:
+        return "Above MA – bullish trend"
+    elif price < sma and price < ema:
+        return "Below MA – bearish trend"
+    else:
+        return "Price near MA – indecisive"
+
+
+def macd_comment(macd):
+    if macd > 0:
+        return "Positive MACD – bullish bias"
+    elif macd < 0:
+        return "Negative MACD – bearish bias"
+    else:
+        return "MACD near zero – flat momentum"

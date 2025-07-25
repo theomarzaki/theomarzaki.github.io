@@ -3,7 +3,7 @@ from ui.sidebar import render_sidebar
 from ui.dashboard_html import verdict_card, render_indicator_table
 import pandas as pd
 from datetime import datetime, timedelta
-from processing.technical_indicators import getTechnicalIndicatorsFromDate
+from processing.technical_indicators import rsi_comment, ma_comment, macd_comment
 
 render_sidebar()
 st.set_page_config(layout="wide")
@@ -41,10 +41,10 @@ norm_snapshot = data[data['Date'] == current_time.replace(hour=0, minute=0, seco
                      ].iloc[0]
 
 technical_indicators = {
-    "RSI": (snapshot['RSI_14'], "PlaceHolder"),
-    "SMA": (snapshot['SMA_20'], "PlaceHolder"),
-    "EMA": (snapshot['EMA_20'], "PlaceHolder"),
-    "MACD": (snapshot['MACD_12_26'], "PlaceHolder"),
+    "RSI": (snapshot['RSI_14'], rsi_comment(snapshot['RSI_14'])),
+    "SMA": (snapshot['SMA_20'], ma_comment(snapshot['Close'], snapshot['SMA_20'], snapshot['EMA_20'])),
+    "EMA": (snapshot['EMA_20'], ma_comment(snapshot['Close'], snapshot['SMA_20'], snapshot['EMA_20'])),
+    "MACD": (snapshot['MACD_12_26'], macd_comment(snapshot['MACD_12_26'])),
 }
 
 market_indicators = {
