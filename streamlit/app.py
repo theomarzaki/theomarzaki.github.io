@@ -49,7 +49,7 @@ technical_indicators = {
 }
 
 market_indicators = {
-    "OBV": (round(norm_snapshot["OBV"], 2), obv_comment(norm_snapshot["OBV"], prev_obv)),
+    "OBV": (round(norm_snapshot["OBV"], 2), obv_comment(norm_snapshot["OBV"], data[data['Date'] == start_of_week_ahead].iloc[-1].OBV)),
     "VWAP": (round(norm_snapshot["vwap"], 2), vwap_comment(norm_snapshot["Close"], norm_snapshot["vwap"])),
     "BID ASK SPREAD": (round(norm_snapshot["bid_ask_spread"], 2), bid_ask_comment(norm_snapshot["bid_ask_spread"])),
 }
