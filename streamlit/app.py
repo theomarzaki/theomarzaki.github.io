@@ -36,7 +36,7 @@ data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%Y-%m-%d')
 data["OBV_diff"] = data["OBV"].diff()
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
 selected_date = st.sidebar.selectbox("Choose a date:", options=valid_dates[::-1])
-st.markdown("**Only affects technical and market indicators.*")
+st.sidebar.markdown("**Only affects technical and market indicators.*")
 snapshot = data[data['Date'] == selected_date].iloc[-1]
 if snapshot.empty:
     st.error(f"No data for selected date: {selected_date}")
