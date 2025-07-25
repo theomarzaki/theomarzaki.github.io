@@ -35,6 +35,10 @@ data = data.drop_duplicates(subset=['Date'])
 data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%Y-%m-%d')
 data["OBV_diff"] = data["OBV"].diff()
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
+
+# Assets section
+st.sidebar.subheader("Configurations: ")
+
 selected_date = st.sidebar.selectbox("Choose a date:", options=valid_dates[::-1])
 st.sidebar.markdown("**Only affects technical and market indicators.*")
 snapshot = data[data['Date'] == selected_date].iloc[-1]
