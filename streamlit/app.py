@@ -32,8 +32,8 @@ start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=
 data = data.drop_duplicates(subset=['Date'])
 data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%Y-%m-%d')
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
-st.markdown("Choose a date:<br>*Only affects technical indicators.*", unsafe_allow_html=True)
-selected_date = st.selectbox("", options=valid_dates[::-1])
+selected_date = st.selectbox("Choose a date:", options=valid_dates[::-1])
+st.markdown("*Only affects technical indicators.*")
 snapshot = data[data['Date'] == selected_date].iloc[-1]
 if snapshot.empty:
     st.error(f"No data for selected date: {selected_date}")
