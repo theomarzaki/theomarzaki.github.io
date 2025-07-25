@@ -4,6 +4,7 @@ from ui.dashboard_html import verdict_card, render_indicator_table
 import pandas as pd
 from datetime import datetime, timedelta
 from processing.technical_indicators import rsi_comment, ma_comment, macd_comment
+from processing.market_indicators import vwap_comment, obv_comment, bid_ask_comment
 
 render_sidebar()
 st.set_page_config(layout="wide")
@@ -48,9 +49,9 @@ technical_indicators = {
 }
 
 market_indicators = {
-    "OBV": (norm_snapshot["OBV"], "PlaceHolder"),
-    "VWAP": (norm_snapshot["vwap"], "PlaceHolder"),
-    "BID ASK SPREAD": (norm_snapshot["bid_ask_spread"], "PlaceHolder"),
+    "OBV": (round(norm_snapshot["OBV"], 2), obv_comment(norm_snapshot["OBV"], prev_obv)),
+    "VWAP": (round(norm_snapshot["vwap"], 2), vwap_comment(norm_snapshot["Close"], norm_snapshot["vwap"])),
+    "BID ASK SPREAD": (round(norm_snapshot["bid_ask_spread"], 2), bid_ask_comment(norm_snapshot["bid_ask_spread"])),
 }
 
 macro_indicators = {
