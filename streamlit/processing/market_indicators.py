@@ -1,8 +1,8 @@
-def obv_comment(obv, prev_obv):
-    if obv > prev_obv:
-        return "Increasing volume – trend confirmation"
-    elif obv < prev_obv:
-        return "Decreasing volume – possible weakening"
+def obv_comment(obv_diff):
+    if obv_diff > 0:
+        return "Increasing OBV – bullish volume momentum"
+    elif obv_diff < 0:
+        return "Decreasing OBV – bearish volume momentum"
     else:
         return "Flat OBV – low conviction"
 

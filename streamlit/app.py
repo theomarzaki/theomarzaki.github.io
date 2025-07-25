@@ -32,6 +32,7 @@ start_of_week_ahead = (current_time - timedelta(days=1)).replace(hour=0, minute=
 # Filter to just those dates
 data = data.drop_duplicates(subset=['Date'])
 data['Date'] = pd.to_datetime(data['Date']).dt.strftime('%Y-%m-%d')
+data["OBV_diff"] = data["OBV"].diff()
 valid_dates = data.loc[(data.Date >= start_of_week_ahead)].Date
 selected_date = st.selectbox("Choose a date:", options=valid_dates[::-1])
 st.markdown("**Only affects technical and market indicators.*")
@@ -49,7 +50,7 @@ technical_indicators = {
 }
 
 market_indicators = {
-    "OBV": (round(snapshot["OBV"], 2), obv_comment(snapshot["OBV"], data[data['Date'] == start_of_week_ahead].iloc[-1].OBV)),
+    "OBV Diff": (snapshot['OBV_diff'], obv_comment(snapshot['OBV_diff'])),
     "VWAP": (round(snapshot["vwap"], 2), vwap_comment(snapshot["Close"], norm_snapshot["vwap"])),
     "BID ASK SPREAD": (round(snapshot["bid_ask_spread"], 2), bid_ask_comment(snapshot["bid_ask_spread"])),
 }
