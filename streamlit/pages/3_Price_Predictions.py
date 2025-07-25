@@ -3,6 +3,7 @@ import pandas as pd
 import plotly.graph_objects as go
 from datetime import datetime, timedelta
 from ui.sidebar import render_sidebar
+import pickle
 
 render_sidebar()
 
@@ -104,5 +105,23 @@ elif subpage == "Model Accuracy":
 
 
 elif subpage == "Training Loss":
-    st.header("Training Loss")
-    st.write("Show volatility charts here.")
+    with open('price_prediction/results/training_loss.pkl', 'rb') as f:
+        losses = pickle.load(f)
+
+    fig = go.Figure()
+    fig.add_trace(go.Scatter(
+        y=losses,
+        x=list(range(1, len(losses) + 1)),
+        mode='lines+markers',
+        name='Training Loss',
+        line=dict(color='royalblue', width=2)
+    ))
+    fig.update_layout(
+        title='Training Loss Over Epochs',
+        xaxis_title='Epoch',
+        yaxis_title='Loss',
+        template='plotly_white',
+        height=400
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
