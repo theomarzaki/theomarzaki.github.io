@@ -1,5 +1,5 @@
 import pandas as pd
-from api import depth, spreads
+from api import depth, spreads, sentiment
 
 
 class MarketIndicators():
@@ -66,6 +66,12 @@ class MarketIndicators():
 
         ticker_spread = spreads.GetSpread(self.ticker)
         ticker_depth = depth.GetOrderBook(self.ticker)
+        # sentiment_analysis = sentiment.fetchSentiment()
+        #
+        # merged_data = sentiment_analysis.join(self.historical_data, how='left')
+        # print(merged_data.head())
+        # print(merged_data.columns)
+        # exit()
 
         merged_data = ticker_depth.join(self.historical_data, how='left')
 

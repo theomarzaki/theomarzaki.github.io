@@ -12,3 +12,4 @@ yfinance
 seaborn
 torch
 plotly
+pysenticrypt
