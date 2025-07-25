@@ -121,7 +121,7 @@ elif subpage == "Training Loss":
             xaxis_title='Epoch',
             yaxis_title='Loss',
             template='plotly_white',
-            height=400
+            height=800
         )
 
         st.plotly_chart(fig, use_container_width=True)
