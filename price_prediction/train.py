@@ -101,4 +101,4 @@ def train(model):
     torch.save(model.state_dict(), 'artifacts/model.save')
 
     with open('price_prediction/results/training_loss.pkl', 'wb') as fp:
-        pickle.dump(train_loss, fp)
+        pickle.dump(train_losses, fp)
