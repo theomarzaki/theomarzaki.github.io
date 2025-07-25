@@ -108,6 +108,8 @@ elif subpage == "Training Loss":
     with open('price_prediction/results/training_loss.pkl', 'rb') as f:
         losses = pickle.load(f)
 
+        st.markdown(losses)
+
         fig = go.Figure()
         fig.add_trace(go.Scatter(
             y=losses,
