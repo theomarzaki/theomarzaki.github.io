@@ -111,7 +111,6 @@ final_indicators = {
     "Technical": ("33%", tech_label),
     "Market": ("33%", market_label),
     "Macro": ("33%", macro_label),
-    "Total": ("99%", total_label)
 }
 
 
