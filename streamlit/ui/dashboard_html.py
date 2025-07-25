@@ -73,7 +73,7 @@ def render_final_table(indicators):
     rows = ""
     for name, (value, comment) in indicators.items():
         bg = get_comment_color(comment)
-        formatted_value = f"{value:.2f}"  # round to 2 decimal places
+        formatted_value = f"{value}"  # round to 2 decimal places
         # No multiline strings here, keep it simple
         rows += (
             f"<tr>"
