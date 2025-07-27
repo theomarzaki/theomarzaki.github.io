@@ -51,32 +51,50 @@ class EconomicIndicators():
 
     # Global function to calculate all economic indicators
 
+    def makeDailyFromMonthly(self, df, date_string):
+        df.set_index(date_string, inplace=True)
+
+        # Create full daily date range
+        start = df.index.min()
+        end = (df.index.max() + pd.offsets.MonthEnd(0))
+        daily_index = pd.date_range(start=start, end=end, freq='D')
+
+        df_daily = df.reindex(daily_index).ffill()
+
+        df_daily.index.name = 'Date'
+        return df_daily
+
     def calculate_economic_indicators(self):
 
         inflation_df = inflation.fetch_inflation_rate()
+        inflation_df = self.makeDailyFromMonthly(inflation_df, 'date')
+
         gdp_df = gdp_growth.fetch_gdp_growth_rate()
+        gdp_df = self.makeDailyFromMonthly(gdp_df, 'date')
+        gdp_df['gdp_growth_rate'] = gdp_df['gdp_growth_rate'].fillna(0)
+
         unemployment_df = unemployment.fetch_unemployment_rate()
+        unemployment_df = self.makeDailyFromMonthly(unemployment_df, 'date')
+
         interest_rate_df = interest_rate.fetch_interest_rate()
+        interest_rate_df = self.makeDailyFromMonthly(interest_rate_df, 'date')
+
         nominal_interest_rate_df = interest_rate.fetch_nominal_interest_rate()
+        nominal_interest_rate_df = self.makeDailyFromMonthly(nominal_interest_rate_df, 'date')
+
         ppp_df = ppp.fetch_ppp_data()
+        ppp_df = self.makeDailyFromMonthly(ppp_df, 'date')
 
         # Merge all DataFrames on 'date'
-        df = pd.merge(inflation_df, gdp_df, on='date', how='outer')
-        df = pd.merge(df, unemployment_df, on='date', how='outer')
-        df = pd.merge(df, interest_rate_df, on='date', how='outer')
-        df = pd.merge(df, nominal_interest_rate_df, on='date', how='outer')
-        df = pd.merge(df, ppp_df, on='date', how='outer')
-
-        df = df.rename(columns={'date': 'Date'})
+        df = pd.merge(inflation_df, gdp_df, on='Date', how='outer')
+        df = pd.merge(df, unemployment_df, on='Date', how='outer')
+        df = pd.merge(df, interest_rate_df, on='Date', how='outer')
+        df = pd.merge(df, nominal_interest_rate_df, on='Date', how='outer')
+        df = pd.merge(df, ppp_df, on='Date', how='outer')
 
         df = pd.merge(df, self.df, on='Date', how='outer')
 
-        # Sort by date
-        df = df.sort_values('Date').reset_index(drop=True)
-        df.index = pd.to_datetime(df['Date'])
-        df.drop(columns=['Date'], inplace=True)
-
-        df[['inflation_rate', 'unemployment_rate', 'nominal_interest_rate', 'interest_rate', 'ppp']] = df[['inflation_rate', 'unemployment_rate', 'nominal_interest_rate', 'interest_rate', 'ppp']].ffill()
+        df[['inflation_rate', 'unemployment_rate', 'nominal_interest_rate', 'interest_rate', 'ppp', 'gdp_growth_rate']] = df[['inflation_rate', 'unemployment_rate', 'nominal_interest_rate', 'interest_rate', 'ppp', 'gdp_growth_rate']].ffill()
 
         df[df.columns] = df[df.columns].apply(pd.to_numeric, errors='coerce')
 
@@ -94,5 +112,7 @@ class EconomicIndicators():
 
         # Calculate PPP Adjustment
         df = self.calculate_ppp_adjustment(df)
+
+        df = df.bfill()
 
         return df

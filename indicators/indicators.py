@@ -9,6 +9,7 @@ class Indicators():
     def __init__(self, kwargs):
         self.TICKER = kwargs['TICKER']
         self.KRAKEN_TICKER = kwargs['KRAKEN_TICKER']
+        # self.historical_data = pd.read_csv('data/historical_data.csv')
         self.historical_data = yf.download(self.TICKER, start='2015-01-01', end=datetime.today().strftime('%Y-%m-%d'))
         self.historical_data.index = pd.to_datetime(self.historical_data.index)
         self.historical_data.columns = ['_'.join(col) for col in self.historical_data.columns]

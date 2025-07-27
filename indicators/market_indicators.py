@@ -1,5 +1,5 @@
 import pandas as pd
-from api import depth, spreads, sentiment
+from api import depth, spreads
 
 
 class MarketIndicators():
@@ -66,24 +66,22 @@ class MarketIndicators():
 
         ticker_spread = spreads.GetSpread(self.ticker)
         ticker_depth = depth.GetOrderBook(self.ticker)
-        # sentiment_analysis = sentiment.fetchSentiment()
-        #
-        # merged_data = sentiment_analysis.join(self.historical_data, how='left')
-        # print(merged_data.head())
-        # print(merged_data.columns)
-        # exit()
 
-        merged_data = ticker_depth.join(self.historical_data, how='left')
+        merged_data = pd.merge(ticker_depth, ticker_spread, on='Date', how='outer')
 
         # Forward fill the ask and bid volumes to fill in missing timestamps
-        merged_data[['ask_volume', 'bid_volume']] = merged_data[['ask_volume', 'bid_volume']].ffill()
 
-        merged_data = ticker_spread.join(merged_data, how='left')
+        self.historical_data = self.historical_data.reset_index()
+        self.historical_data["Date"] = self.historical_data["Date"].astype("string")
+        merged_data = pd.merge(merged_data, self.historical_data, on='Date', how='outer')
 
-        # Drop rows where BTC data is missing (if any)
-        merged_data.dropna(subset=['Open', 'High', 'Low', 'Close', 'Volume'], inplace=True)
+        # Fill rows where BTC data is missing (if any)
+        merged_data[['Open', 'High', 'Low', 'Close', 'Volume']] = merged_data[['Open', 'High', 'Low', 'Close', 'Volume']].ffill()
 
-        merged_data[merged_data.columns] = merged_data[merged_data.columns].apply(pd.to_numeric)
+        merged_data[['ask_volume', 'bid_volume']] = merged_data[['ask_volume', 'bid_volume']].bfill()
+        merged_data[['ask', 'bid']] = merged_data[['ask', 'bid']].bfill()
+
+        merged_data[merged_data.columns[1:]] = merged_data[merged_data.columns[1:]].apply(pd.to_numeric)
 
         # # Calculate Market Cap
         # df = self.calculate_market_cap(self.df)

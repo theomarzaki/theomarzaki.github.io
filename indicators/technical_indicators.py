@@ -39,12 +39,12 @@ class TechnicalIndicators():
 
     # Function to calculate On-Balance Volume (OBV)
     def calculate_obv(self, df):
-        df['OBV'] = ta.volume.OnBalanceVolumeIndicator(df['Close'], df['Volume']).on_balance_volume()
+        df['OBV'] = ta.volume.OnBalanceVolumeIndicator(df['Close'], df['Volume'], fillna=True).on_balance_volume()
         return df
 
     # Function to calculate Ichimoku Cloud
     def calculate_ichimoku_cloud(self, df):
-        ichimoku = ta.trend.IchimokuIndicator(df['High'], df['Low'])
+        ichimoku = ta.trend.IchimokuIndicator(df['High'], df['Low'], fillna=True)
         df = pd.concat([df, ichimoku.ichimoku_a(), ichimoku.ichimoku_b()], axis=1)
         return df
 

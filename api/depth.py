@@ -1,38 +1,29 @@
 import pandas as pd
 import requests
-from datetime import datetime, timedelta
+from datetime import datetime
 
 
-def fetch_kraken_order_book(ticker='XBTUSD', depth=1):
+def GetOrderBook(ticker='XBTUSD'):
     url = 'https://api.kraken.com/0/public/Depth'
-    params = {
-        'pair': ticker,
-        'count': depth
-    }
+    params = {'pair': 'XBTUSD', 'count': 10}
     response = requests.get(url, params=params)
-    if response.status_code == 200:
-        return response.json()
-    else:
-        raise Exception(f"Failed to fetch data from Kraken API: {response.status_code}")
+    data = response.json()
 
+    depth = data['result']['XXBTZUSD']
+    bids = pd.DataFrame(depth['bids'], columns=['price', 'bid_volume', 'timestamp'])
+    asks = pd.DataFrame(depth['asks'], columns=['price', 'ask_volume', 'timestamp'])
 
-def GetOrderBook(kraken_ticker):
-    order_book = fetch_kraken_order_book(kraken_ticker)
-    kraken_ticker = list(order_book['result'].keys())[0]
-    asks = order_book['result'][kraken_ticker]['asks']
-    bids = order_book['result'][kraken_ticker]['bids']
+    bids[['price', 'bid_volume']] = bids[['price', 'bid_volume']].astype(float)
+    asks[['price', 'ask_volume']] = asks[['price', 'ask_volume']].astype(float)
 
-    # Get the current timestamp and convert it to the start of the day
-    current_time = datetime.utcnow()
-    start_of_previous_day = (current_time - timedelta(days=1)).replace(hour=0, minute=0, second=0, microsecond=0)
+    bids = bids.drop(columns='timestamp')
+    asks = asks.drop(columns='timestamp')
 
-    # Create a DataFrame with ask and bid volumes, using the start of the day as the timestamp
-    kraken_data = pd.DataFrame({
-        'timestamp': [start_of_previous_day],
-        'ask_volume': [float(asks[0][1])],
-        'bid_volume': [float(bids[0][1])]
-    })
+    merged_depth = pd.concat([bids, asks], axis=1)
 
-    # Set the timestamp as the index
-    kraken_data.set_index('timestamp', inplace=True)
-    return kraken_data
+    merged_depth['Date'] = datetime.utcnow().strftime('%Y-%m-%d')
+
+    merged_depth = merged_depth[['Date', 'price', 'bid_volume', 'ask_volume']]
+    daily_volume = merged_depth.groupby('Date')[['bid_volume', 'ask_volume']].sum().reset_index()
+
+    return daily_volume
