@@ -9,13 +9,18 @@ class Indicators():
     def __init__(self, kwargs):
         self.TICKER = kwargs['TICKER']
         self.KRAKEN_TICKER = kwargs['KRAKEN_TICKER']
-        # self.historical_data = pd.read_csv('data/historical_data.csv')
-        self.historical_data = yf.download(self.TICKER, start='2015-01-01', end=datetime.today().strftime('%Y-%m-%d'))
-        self.historical_data.index = pd.to_datetime(self.historical_data.index)
-        self.historical_data.columns = ['_'.join(col) for col in self.historical_data.columns]
-        self.historical_data.columns = [col.split("_")[0] for col in self.historical_data.columns]
-        self.historical_data.to_csv('data/historical_data.csv')
-        self.technical_indicator = technical_indicators.TechnicalIndicators(self.historical_data.copy(), self.TICKER)
+
+    def fetch_data(self, local):
+        if local:
+            self.historical_data = pd.read_csv('data/historical_data.csv')
+            self.technical_indicator = technical_indicators.TechnicalIndicators(self.historical_data.copy(), self.TICKER)
+        else:
+            self.historical_data = yf.download(self.TICKER, start='2015-01-01', end=datetime.today().strftime('%Y-%m-%d'))
+            self.historical_data.index = pd.to_datetime(self.historical_data.index)
+            self.historical_data.columns = ['_'.join(col) for col in self.historical_data.columns]
+            self.historical_data.columns = [col.split("_")[0] for col in self.historical_data.columns]
+            self.historical_data.to_csv('data/historical_data.csv')
+            self.technical_indicator = technical_indicators.TechnicalIndicators(self.historical_data.copy(), self.TICKER)
 
     def make_technical_indicator(self):
         technical_indicator = self.technical_indicator.calculate_technical_indicators()

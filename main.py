@@ -21,6 +21,7 @@ if __name__ == "__main__":
         ticker.setTickers(yf_ticker, kraken_ticker)
 
     indicators = indicators.Indicators(kwargs=ticker.getTickers())
+    indicators.fetch_data(local=False)
     indicators.make_technical_indicator()
     indicators.make_market_indicator()
     indicators.make_economic_indicator()
@@ -29,16 +30,13 @@ if __name__ == "__main__":
 
     model = LSTMRegressor(input_dim=INPUT_DIM)
 
-    # Train Model
     train.train(model)
 
-    # Test Model
     test.test(model)
 
-    # Make Predictions
     predict.predict(model)
 
     df = indicators.technical_indicator.update_technical_indicators()
 
-    verdict = verdict.GiveVerdict(df)
+    verdict = verdict.GiveVerdict(df.copy())
     verdict.to_csv('data/verdict.csv')

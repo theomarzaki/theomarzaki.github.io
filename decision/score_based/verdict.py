@@ -35,13 +35,6 @@ def GiveVerdict(df):
 
     current_time = datetime.utcnow()
 
-    last_month = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
-    df = df[(df['Date'] > last_month)]
-
-    df.drop(columns=['SMA_20', 'EMA_20',
-                     'RSI_14', 'hband', 'lband', 'MACD_12_26', 'MACD_sign_12_26', 'stoch_k',
-                     'OBV', 'ichimoku_a_9_26', 'ichimoku_b_9_26'], inplace=True)
-
     start_of_week = (current_time - timedelta(days=3)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
     df = df[(df['Date'] > start_of_week)]
     df = df.drop_duplicates(subset=['Date'])
