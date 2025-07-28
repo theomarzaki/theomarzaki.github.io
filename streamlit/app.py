@@ -60,6 +60,8 @@ market_indicators = {
     "BID ASK SPREAD": (round(snapshot["bid_ask_spread"], 2), bid_ask_comment(snapshot["bid_ask_spread"])),
 }
 
+st.markdown(norm_snapshot)
+
 macro_indicators = {
     "Inflation Adjusted Return (US)": (
         round(norm_snapshot["inflation_adjusted_return"], 2),
