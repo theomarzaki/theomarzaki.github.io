@@ -56,7 +56,7 @@ class EconomicIndicators():
 
         # Create full daily date range
         start = df.index.min()
-        end = (df.index.max() + pd.offsets.MonthEnd(0))
+        end = pd.to_datetime("today").normalize()
         daily_index = pd.date_range(start=start, end=end, freq='D')
 
         df_daily = df.reindex(daily_index).ffill()
@@ -114,5 +114,6 @@ class EconomicIndicators():
         df = self.calculate_ppp_adjustment(df)
 
         df = df.bfill()
+        df = df.ffill()
 
         return df
