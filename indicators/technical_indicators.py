@@ -109,6 +109,8 @@ class TechnicalIndicators():
         # Calculate Ichimoku Cloud
         df = self.calculate_ichimoku_cloud(df)
 
+        df.ffill(inplace=True)
+        df.bfill(inplace=True)
         df.to_csv('data/merged_indicators.csv', index=False)
 
         return df
