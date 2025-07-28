@@ -38,5 +38,7 @@ if __name__ == "__main__":
     # Make Predictions
     predict.predict(model)
 
-    verdict = verdict.GiveVerdict(indicators)
+    df = indicators.technical_indicator.update_technical_indicators()
+
+    verdict = verdict.GiveVerdict(df)
     verdict.to_csv('data/verdict.csv')

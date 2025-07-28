@@ -74,7 +74,10 @@ class TechnicalIndicators():
 
         return df
 
-    def update_technical_indicators(self, df):
+    def update_technical_indicators(self):
+
+        df = pd.read_csv('data/merged_indicators.csv')
+
         # Calculate Moving Averages
         df = self.calculate_moving_averages(df, period=20)
 
