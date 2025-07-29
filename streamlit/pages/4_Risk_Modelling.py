@@ -34,12 +34,12 @@ df['CVaR_bin'] = pd.cut(df['CVaR'], bins=bins, labels=labels)
 plot_df = df.dropna(subset=['CVaR', 'CVaR_bin'])
 
 # --- Plot Distribution ---
-fig, ax = plt.subplots(figsize=(10, 6))
+fig, ax = plt.subplots(figsize=(9, 5))
 ax.hist(returns, bins=50, alpha=0.75, color='skyblue', edgecolor='black')
 ax.axvline(x=cvar, color='green', linestyle='--', label=f'CVaR ({confidence_level:.0%})')
 ax.text(cvar, ax.get_ylim()[1] * 0.8, f'CVaR\n{cvar:.2%}', color='green', ha='right')
 
-ax.set_title('Distribution of Daily Returns with VaR and CVaR')
+ax.set_title('Distribution of Daily Returns with CVaR')
 ax.set_xlabel('Daily Returns')
 ax.set_ylabel('Frequency')
 ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
