@@ -1,3 +1,5 @@
+import matplotlib.ticker as mtick
+import matplotlib.pyplot as plt
 import streamlit as st
 from ui.sidebar import render_sidebar
 import pandas as pd
@@ -21,32 +23,36 @@ df['CVaR_bin'] = pd.cut(df['CVaR'], bins=bins, labels=labels)
 # Drop NaNs for clean plotting
 plot_df = df.dropna(subset=['CVaR', 'CVaR_bin'])
 
-fig = px.scatter(
-    plot_df,
-    x='Date',
-    y='CVaR',
-    color='CVaR_bin',
-    color_discrete_map={
-        'High Risk': 'red',
-        'Medium Risk': 'orange',
-        'Low Risk': 'green'
-    },
-    title='Binned 30-Day Rolling CVaR',
-    labels={'CVaR': 'CVaR', 'CVaR_bin': 'Risk Level'},
-)
+# Assuming these exist:
+# - returns: a Series of daily returns
+# - var: calculated Value at Risk (e.g., 5th percentile)
+# - cvar: Conditional VaR (average of worst 5%)
+# - confidence_level: e.g., 0.95
 
-fig.update_layout(
-    height=400,
-    template='plotly_white',
-    margin=dict(l=30, r=30, t=50, b=30)
-)
+fig, ax = plt.subplots(figsize=(10, 6))
 
+# Histogram of returns
+ax.hist(returns, bins=50, alpha=0.75, color='skyblue', edgecolor='black')
 
-st.plotly_chart(fig, use_container_width=True)
+# Add VaR and CVaR lines
+ax.axvline(x=cvar, color='green', linestyle='--', label=f'CVaR ({confidence_level:.0%})')
+
+# Annotate lines
+ax.text(cvar, ax.get_ylim()[1] * 0.8, f'CVaR\n{cvar:.2%}', color='green', ha='right')
+
+# Labels and formatting
+ax.set_title('Distribution of Daily Returns with VaR and CVaR')
+ax.set_xlabel('Daily Returns')
+ax.set_ylabel('Frequency')
+ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
+ax.legend()
+
+# Display in Streamlit
+st.pyplot(fig)
 
 latest_cvar = df[['Date', 'CVaR', 'CVaR_bin']].dropna().sort_values('Date').tail(3)
 
-st.subheader("Recent CVaR Risk Snapshots")
+st.subheader("ecent CVaR Risk Snapshots")
 
 for _, row in latest_cvar.iterrows():
     date_str = pd.to_datetime(row['Date']).strftime('%Y-%m-%d')
@@ -54,7 +60,7 @@ for _, row in latest_cvar.iterrows():
     risk = row['CVaR_bin']
     st.markdown(f"""
     <div style='padding: 10px; margin-bottom: 8px; background-color: #f9f9f9; border-left: 6px solid #888; font-size: 0.95rem;'>
-        <strong>{date_str}</strong> &nbsp; | &nbsp;
+        <strong>date_str}</strong> &nbsp; | &nbsp;
         <strong>CVaR:</strong> {cvar_pct} &nbsp; | &nbsp;
         <strong>Risk:</strong> {risk}
     </div>
