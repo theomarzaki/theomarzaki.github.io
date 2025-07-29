@@ -1,7 +1,7 @@
 from datetime import datetime
 import yfinance as yf
 import pandas as pd
-from indicators import technical_indicators, market_indicators, economic_indicators
+from indicators import technical_indicators, market_indicators, economic_indicators, risk_indicators
 
 
 class Indicators():
@@ -14,6 +14,7 @@ class Indicators():
         if local:
             self.historical_data = pd.read_csv('data/historical_data.csv')
             self.technical_indicator = technical_indicators.TechnicalIndicators(self.historical_data.copy(), self.TICKER)
+            self.risk_indicator = risk_indicators.RiskIndicators(self.historical_data.copy())
         else:
             self.historical_data = yf.download(self.TICKER, start='2015-01-01', end=datetime.today().strftime('%Y-%m-%d'))
             self.historical_data.index = pd.to_datetime(self.historical_data.index)
@@ -21,6 +22,7 @@ class Indicators():
             self.historical_data.columns = [col.split("_")[0] for col in self.historical_data.columns]
             self.historical_data.to_csv('data/historical_data.csv')
             self.technical_indicator = technical_indicators.TechnicalIndicators(self.historical_data.copy(), self.TICKER)
+            self.risk_indicator = risk_indicators.RiskIndicators(self.historical_data.copy())
 
     def make_technical_indicator(self):
         technical_indicator = self.technical_indicator.calculate_technical_indicators()
@@ -36,3 +38,8 @@ class Indicators():
         economic_indicator = economic_indicators.EconomicIndicators(self.historical_data.copy()).calculate_economic_indicators()
         economic_indicator.to_csv('data/economic_indicators.csv')
         return economic_indicator
+
+    def make_risk_indicators(self):
+        risk_indicator = risk_indicators.RiskIndicators(self.historical_data.copy()).calculate_risk_indicators()
+        risk_indicator.to_csv('data/risk_indicators.csv')
+        return risk_indicator

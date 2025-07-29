@@ -73,6 +73,10 @@ class MarketIndicators():
 
         self.historical_data = self.historical_data.reset_index()
         self.historical_data["Date"] = self.historical_data["Date"].astype("string")
+
+        if 'index' in self.historical_data.columns:
+            self.historical_data.drop(columns=['index'], inplace=True)
+
         merged_data = pd.merge(merged_data, self.historical_data, on='Date', how='outer')
 
         # Fill rows where BTC data is missing (if any)

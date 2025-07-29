@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 TICKERS = ["BTC-USD"]
 KRAKEN_TICKERS = ["XBTUSD"]
 
-INPUT_DIM = 36
+INPUT_DIM = 38
 
 
 if __name__ == "__main__":
@@ -21,22 +21,24 @@ if __name__ == "__main__":
         ticker.setTickers(yf_ticker, kraken_ticker)
 
     indicators = indicators.Indicators(kwargs=ticker.getTickers())
-    indicators.fetch_data(local=False)
-    indicators.make_technical_indicator()
-    indicators.make_market_indicator()
-    indicators.make_economic_indicator()
+    indicators.fetch_data(local=True)
+    # indicators.make_technical_indicator()
+    # indicators.make_market_indicator()
+    # indicators.make_economic_indicator()
+    # indicators.make_risk_indicators()
 
     data_manipulation.manipulate_data()
 
     model = LSTMRegressor(input_dim=INPUT_DIM)
 
-    train.train(model)
+    # train.train(model)
 
-    test.test(model)
+    # test.test(model)
 
     predict.predict(model)
 
     df = indicators.technical_indicator.update_technical_indicators()
+    df = indicators.risk_indicator.update_risk_indicators()
 
     verdict = verdict.GiveVerdict(df.copy())
     verdict.to_csv('data/verdict.csv')
