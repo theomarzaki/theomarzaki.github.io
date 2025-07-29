@@ -43,3 +43,19 @@ fig.update_layout(
 
 
 st.plotly_chart(fig, use_container_width=True)
+
+latest_cvar = df[['Date', 'CVaR', 'CVaR_bin']].dropna().sort_values('Date').tail(3)
+
+st.subheader("Recent CVaR Risk Snapshots")
+
+for _, row in latest_cvar.iterrows():
+    date_str = pd.to_datetime(row['Date']).strftime('%Y-%m-%d')
+    cvar_pct = f"{row['CVaR'] * 100:.2f}%"
+    risk = row['CVaR_bin']
+    st.markdown(f"""
+    <div style='padding: 10px; margin-bottom: 8px; background-color: #f9f9f9; border-left: 6px solid #888; font-size: 0.95rem;'>
+        <strong>{date_str}</strong> &nbsp; | &nbsp;
+        <strong>CVaR:</strong> {cvar_pct} &nbsp; | &nbsp;
+        <strong>Risk:</strong> {risk}
+    </div>
+    """, unsafe_allow_html=True)
