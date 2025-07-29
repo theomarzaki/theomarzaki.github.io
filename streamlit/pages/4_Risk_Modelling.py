@@ -23,11 +23,7 @@ df['CVaR_bin'] = pd.cut(df['CVaR'], bins=bins, labels=labels)
 # Drop NaNs for clean plotting
 plot_df = df.dropna(subset=['CVaR', 'CVaR_bin'])
 
-# Assuming these exist:
-# - returns: a Series of daily returns
-# - var: calculated Value at Risk (e.g., 5th percentile)
-# - cvar: Conditional VaR (average of worst 5%)
-# - confidence_level: e.g., 0.95
+confidence_level = 95
 
 fig, ax = plt.subplots(figsize=(10, 6))
 
