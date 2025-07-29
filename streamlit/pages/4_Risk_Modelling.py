@@ -2,6 +2,7 @@ import matplotlib.ticker as mtick
 import matplotlib.pyplot as plt
 import streamlit as st
 import pandas as pd
+import plotly.graph_objects as go
 import numpy as np
 from ui.sidebar import render_sidebar
 
@@ -34,17 +35,29 @@ df['CVaR_bin'] = pd.cut(df['CVaR'], bins=bins, labels=labels)
 plot_df = df.dropna(subset=['CVaR', 'CVaR_bin'])
 
 # --- Plot Distribution ---
-fig, ax = plt.subplots(figsize=(9, 5))
-ax.hist(returns, bins=50, alpha=0.75, color='skyblue', edgecolor='black')
-ax.axvline(x=cvar, color='green', linestyle='--', label=f'CVaR ({confidence_level:.0%})')
-ax.text(cvar, ax.get_ylim()[1] * 0.8, f'CVaR\n{cvar:.2%}', color='green', ha='right')
+fig = go.Figure()
 
-ax.set_title('Distribution of Daily Returns with CVaR')
-ax.set_xlabel('Daily Returns')
-ax.set_ylabel('Frequency')
-ax.xaxis.set_major_formatter(mtick.PercentFormatter(1.0))
-ax.legend()
-st.pyplot(fig)
+# Histogram
+fig.add_trace(go.Histogram(
+    x=returns,
+    nbinsx=50,
+    marker_color='skyblue',
+    name='Returns',
+    opacity=0.75
+))
+
+# CVaR line
+fig.add_vline(x=cvar, line_dash='dash', line_color='green',
+              annotation_text=f'CVaR ({confidence_level:.0%})', annotation_position='top right')
+
+fig.update_layout(
+    title='Distribution of Daily Returns with CVaR',
+    xaxis_title='Daily Returns',
+    yaxis_title='Frequency',
+    bargap=0.05
+)
+
+st.plotly_chart(fig, use_container_width=True)
 
 # --- Display Recent Snapshots ---
 st.subheader("Recent CVaR Risk Snapshots")
