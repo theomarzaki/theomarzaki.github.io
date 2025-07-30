@@ -2,6 +2,7 @@ import streamlit as st
 from ui.sidebar import render_sidebar
 import pandas as pd
 import plotly.graph_objects as go
+from datetime import datetime
 
 render_sidebar()
 
@@ -17,6 +18,12 @@ df['Date'] = pd.to_datetime(df['Date'])
 
 # Sort by Date
 df = df.sort_values('Date')
+
+# Get today's date (no time)
+today = pd.to_datetime(datetime.today().date())
+
+# Filter out future rows
+df = df[df['Date'] <= today]
 
 # Create figure with secondary y-axis
 fig = go.Figure()
