@@ -21,6 +21,9 @@ returns = df['Return'].dropna()
 
 # Compute CVaR
 confidence_level = 0.95
+var = returns.quantile(1 - confidence_level)
+# cvar = returns[returns <= var].mean()
+cvar = df['CVaR']
 
 # Bin CVaR values
 bins = [-np.inf, -0.05, -0.02, 0]  # Adjust as needed
@@ -43,7 +46,7 @@ fig.add_trace(go.Histogram(
 ))
 
 # CVaR line
-fig.add_vline(x=df['CVaR'], line_dash='dash', line_color='green',
+fig.add_vline(x=cvar, line_dash='dash', line_color='green',
               annotation_text=f'CVaR ({confidence_level:.0%})', annotation_position='top right')
 
 fig.update_layout(
