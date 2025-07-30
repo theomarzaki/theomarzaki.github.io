@@ -44,7 +44,7 @@ fig.add_trace(go.Histogram(
 st.markdown(df['CVaR'])
 
 # CVaR line
-fig.add_vline(x=df['CVaR'], line_dash='dash', line_color='green',
+fig.add_vline(x=df['CVaR'].values, line_dash='dash', line_color='green',
               annotation_text=f'CVaR ({confidence_level:.0%})', annotation_position='top right')
 
 fig.update_layout(
