@@ -38,7 +38,7 @@ fig.add_trace(go.Scatter(
 
 # Add sentiment trace
 fig.add_trace(go.Scatter(
-    x=df['Date'], y=df['sentiment'],
+    x=df['Date'], y=df['Sentiment'],
     name='Sentiment Score',
     line=dict(color='orange', dash='dot'),
     yaxis='y2'

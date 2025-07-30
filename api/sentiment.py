@@ -1,20 +1,16 @@
-from pysenticrypt import SentiCryptAPI
 import pandas as pd
+import requests
 
 
 def fetchSentiment():
 
-    api = SentiCryptAPI()
-    sent_data = api.get_all_data()
+    url = "https://api.alternative.me/fng/?limit=0"  # fetch all available history
+    resp = requests.get(url)
+    data = resp.json().get("data", [])
 
-    # Convert to DataFrame
-    sent_df = pd.DataFrame(sent_data)
-    sent_df['date'] = pd.to_datetime(sent_df['date'])
-    sent_df.set_index('date', inplace=True)
-    sent_df.index.name = 'Date'
+    fg_df = pd.DataFrame(data)
+    fg_df['Date'] = pd.to_datetime(fg_df['timestamp'].astype(int), unit='s')
+    fg_df['Sentiment'] = fg_df['value'].astype(int)
+    fg_df = fg_df[['Date', 'Sentiment']]
 
-    # Optional: just keep the 'mean' score
-    sent_df = sent_df[['mean']]
-    sent_df.rename(columns={'mean': 'sentiment'}, inplace=True)
-
-    return sent_df
+    return fg_df

@@ -28,7 +28,7 @@ class SentimentIndicators():
 
         df = pd.merge(sentiment_df, self.historical_data, on='Date', how='outer')
 
-        # df = df.bfill()
-        # df = df.ffill()
+        df = df.bfill()
+        df = df.ffill()
 
         return df
