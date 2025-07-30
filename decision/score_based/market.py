@@ -39,6 +39,6 @@ def make_decisions(df):
 
     calculate_scores(df)
 
-    df['Decision'] = np.where(df['Score'] >= 3, 'Buy',
-                              np.where(df['Score'] <= -3, 'Sell', 'Hold'))
+    df['Decision'] = np.where(df['Score'] >= 1, 'Buy',
+                              np.where(df['Score'] <= -1, 'Sell', 'Hold'))
     return df
