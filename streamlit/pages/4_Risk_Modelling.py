@@ -42,7 +42,7 @@ fig.add_trace(go.Histogram(
 ))
 
 st.markdown(df['CVaR'].values)
-st.markdown(df['CVaR'].isna())
+st.markdown(df['CVaR'].isna().any().any())
 
 # CVaR line
 fig.add_vline(x=df['CVaR'].values, line_dash='dash', line_color='green',
