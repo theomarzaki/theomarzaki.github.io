@@ -17,18 +17,14 @@ df['Date'] = pd.to_datetime(df['Date'])
 df = df.sort_values('Date')
 
 # Compute returns
-df['Return'] = df['Close'].pct_change()
 returns = df['Return'].dropna()
 
 # Compute CVaR
 confidence_level = 0.95
-var = returns.quantile(1 - confidence_level)
-cvar = returns[returns <= var].mean()
 
 # Bin CVaR values
 bins = [-np.inf, -0.05, -0.02, 0]  # Adjust as needed
 labels = ['High Risk', 'Medium Risk', 'Low Risk']
-df['CVaR'] = df['Return'].rolling(window=30).apply(lambda x: x[x <= x.quantile(1 - confidence_level)].mean(), raw=False)
 df['CVaR_bin'] = pd.cut(df['CVaR'], bins=bins, labels=labels)
 
 # Drop NaNs for plotting
@@ -47,7 +43,7 @@ fig.add_trace(go.Histogram(
 ))
 
 # CVaR line
-fig.add_vline(x=cvar, line_dash='dash', line_color='green',
+fig.add_vline(x=df['CVaR'], line_dash='dash', line_color='green',
               annotation_text=f'CVaR ({confidence_level:.0%})', annotation_position='top right')
 
 fig.update_layout(
