@@ -41,11 +41,12 @@ fig.add_trace(go.Histogram(
     opacity=0.75
 ))
 
-st.markdown(df['CVaR'].values)
-st.markdown(df['CVaR'].isna().any().any())
+confidence_level = 0.95
+var = returns.quantile(1 - confidence_level)
+cvar = returns[returns <= var].mean()
 
 # CVaR line
-fig.add_vline(x=df['CVaR'].values, line_dash='dash', line_color='green',
+fig.add_vline(x=cvar, line_dash='dash', line_color='green',
               annotation_text=f'CVaR ({confidence_level:.0%})', annotation_position='top right')
 
 fig.update_layout(
