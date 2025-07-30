@@ -27,7 +27,7 @@ labels = ['High Risk', 'Medium Risk', 'Low Risk']
 df['CVaR_bin'] = pd.cut(df['CVaR'], bins=bins, labels=labels)
 
 # Drop NaNs for plotting
-plot_df = df.dropna(subset=['CVaR', 'CVaR_bin'])
+df.dropna(subset=['CVaR', 'CVaR_bin'], inplace=True)
 
 # --- Plot Distribution ---
 fig = go.Figure()
