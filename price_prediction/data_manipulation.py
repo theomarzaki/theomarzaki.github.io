@@ -13,31 +13,35 @@ def manipulate_data():
     market_indicators_data = pd.read_csv('data/market_indicators.csv', index_col=0)
     economic_indicators_data = pd.read_csv('data/economic_indicators.csv')
     risk_indicators_data = pd.read_csv('data/risk_indicators.csv')
+    sentiment_indicators_data = pd.read_csv('data/sentiment_indicators.csv', index_col=0)
 
     risk_indicators_data = risk_indicators_data.bfill()
 
-    if technical_indicators_data.empty or market_indicators_data.empty or economic_indicators_data.empty or risk_indicators_data.empty:
-        print(F"Empty DF: {technical_indicators_data.empty}, {market_indicators_data.empty}, {economic_indicators_data.empty}, {risk_indicators_data.empty}")
+    if technical_indicators_data.empty or market_indicators_data.empty or economic_indicators_data.empty or risk_indicators_data.empty or sentiment_indicators_data.empty:
+        print(F"Empty DF: {technical_indicators_data.empty}, {market_indicators_data.empty}, {economic_indicators_data.empty}, {risk_indicators_data.empty}, {sentiment_indicators_data.empty}")
         exit()
 
     technical_indicators_data = technical_indicators_data[(technical_indicators_data['Date'] > DATE)]
     market_indicators_data = market_indicators_data[(market_indicators_data['Date'] > DATE)]
     economic_indicators_data = economic_indicators_data[(economic_indicators_data['Date'] > DATE)]
     risk_indicators_data = risk_indicators_data[(risk_indicators_data['Date'] > DATE)]
+    sentiment_indicators_data = sentiment_indicators_data[(sentiment_indicators_data['Date'] > DATE)]
 
     merged_indicators = pd.merge(technical_indicators_data, market_indicators_data, how='outer', left_on=['Date', 'Close', 'High', 'Low', 'Open', 'Volume'], right_on=['Date', 'Close', 'High', 'Low', 'Open', 'Volume']).merge(economic_indicators_data, how='outer', left_on=['Date', 'Close', 'High', 'Low', 'Open', 'Volume'], right_on=['Date', 'Close', 'High', 'Low', 'Open', 'Volume'])
     merged_indicators = pd.merge(merged_indicators, risk_indicators_data, how='outer', left_on=['Date', 'Close', 'High', 'Low', 'Open', 'Volume'], right_on=['Date', 'Close', 'High', 'Low', 'Open', 'Volume'])
+    merged_indicators = pd.merge(merged_indicators, sentiment_indicators_data, how='outer', left_on=['Date', 'Close', 'High', 'Low', 'Open', 'Volume'], right_on=['Date', 'Close', 'High', 'Low', 'Open', 'Volume'])
     merged_indicators.to_csv('data/merged_indicators.csv')
 
     merged_indicators = merged_indicators.ffill()
 
     merged_indicators.drop(columns=['Date'], inplace=True)
 
-    if technical_indicators_data.isna().any().any() or market_indicators_data.isna().any().any() or economic_indicators_data.isna().any().any() or risk_indicators_data.isna().any().any():
+    if technical_indicators_data.isna().any().any() or market_indicators_data.isna().any().any() or economic_indicators_data.isna().any().any() or risk_indicators_data.isna().any().any() or sentiment_indicators_data.isna().any().any():
         print(technical_indicators_data[technical_indicators_data.isna().any(axis=1)])
         print(market_indicators_data[market_indicators_data.isna().any(axis=1)])
         print(economic_indicators_data[economic_indicators_data.isna().any(axis=1)])
         print(risk_indicators_data[risk_indicators_data.isna().any(axis=1)])
+        print(sentiment_indicators_data[sentiment_indicators_data.isna().any(axis=1)])
         exit()
 
     x_scaler = MinMaxScaler()

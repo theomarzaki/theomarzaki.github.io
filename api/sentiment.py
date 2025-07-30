@@ -11,6 +11,7 @@ def fetchSentiment():
     sent_df = pd.DataFrame(sent_data)
     sent_df['date'] = pd.to_datetime(sent_df['date'])
     sent_df.set_index('date', inplace=True)
+    sent_df.index.name = 'Date'
 
     # Optional: just keep the 'mean' score
     sent_df = sent_df[['mean']]

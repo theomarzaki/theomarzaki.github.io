@@ -1,7 +1,7 @@
 from datetime import datetime
 import yfinance as yf
 import pandas as pd
-from indicators import technical_indicators, market_indicators, economic_indicators, risk_indicators
+from indicators import technical_indicators, market_indicators, economic_indicators, risk_indicators, sentiment_indicators
 
 
 class Indicators():
@@ -43,3 +43,8 @@ class Indicators():
         risk_indicator = risk_indicators.RiskIndicators(self.historical_data.copy()).calculate_risk_indicators()
         risk_indicator.to_csv('data/risk_indicators.csv')
         return risk_indicator
+
+    def make_sentiment_indicators(self):
+        sentiment_indicator = sentiment_indicators.SentimentIndicators(self.historical_data.copy()).calculate_sentiment_indicators()
+        sentiment_indicator.to_csv('data/sentiment_indicators.csv')
+        return sentiment_indicator

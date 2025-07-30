@@ -12,7 +12,7 @@ from datetime import datetime, timedelta
 TICKERS = ["BTC-USD"]
 KRAKEN_TICKERS = ["XBTUSD"]
 
-INPUT_DIM = 38
+INPUT_DIM = 39
 
 
 if __name__ == "__main__":
@@ -26,6 +26,7 @@ if __name__ == "__main__":
     indicators.make_market_indicator()
     indicators.make_economic_indicator()
     indicators.make_risk_indicators()
+    indicators.make_sentiment_indicators()
 
     data_manipulation.manipulate_data()
 
