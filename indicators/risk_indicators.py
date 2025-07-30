@@ -16,18 +16,11 @@ class RiskIndicators():
 
     def compute_cvar_series(self, df, price_col='Close', window=30, alpha=0.95):
 
-        # Compute daily returns
-        df['Return'] = df[price_col].pct_change()
+        df['Return'] = df['Close'].pct_change()
 
-        def rolling_cvar(series, alpha=0.95):
-            series = series.dropna()
-            if len(series) == 0:
-                return np.nan
-            var = np.percentile(series, (1 - alpha) * 100)
-            cvar = series[series <= var].mean()
-            return cvar
+        confidence_level = 0.95
 
-        df['CVaR'] = df['Return'].rolling(window).apply(rolling_cvar, raw=False)
+        df['CVaR'] = df['Return'].rolling(window=30).apply(lambda x: x[x <= x.quantile(1 - confidence_level)].mean(), raw=False)
 
         return df
 
