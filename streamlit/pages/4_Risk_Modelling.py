@@ -23,6 +23,7 @@ returns = df['Return'].dropna()
 confidence_level = 0.95
 var = returns.quantile(1 - confidence_level)
 cvar = returns[returns <= var].mean()
+df['CVaR'] = cvar
 
 # Bin CVaR values
 bins = [-np.inf, -0.05, -0.02, 0]  # Adjust as needed
