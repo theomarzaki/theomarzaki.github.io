@@ -35,10 +35,9 @@ class RiskIndicators():
 
         df.drop(columns=['CVaR'], inplace=True)
 
-        current_time = datetime.utcnow()
-
-        last_month = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
-        df = df[(df['Date'] > last_month)]
+        # current_time = datetime.utcnow()
+        # last_month = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+        # df = df[(df['Date'] > last_month)]
 
         df = self.compute_cvar_series(df.copy())
 

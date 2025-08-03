@@ -83,10 +83,9 @@ class TechnicalIndicators():
                          'RSI_14', 'hband', 'lband', 'MACD_12_26', 'MACD_sign_12_26', 'stoch_k',
                          'OBV', 'ichimoku_a_9_26', 'ichimoku_b_9_26'], inplace=True)
 
-        current_time = datetime.utcnow()
-
-        last_month = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
-        df = df[(df['Date'] > last_month)]
+        # current_time = datetime.utcnow()
+        # last_month = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+        # df = df[(df['Date'] > last_month)]
 
         # Calculate Moving Averages
         df = self.calculate_moving_averages(df, period=20)

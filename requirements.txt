@@ -13,3 +13,4 @@ seaborn
 torch
 plotly
 pysenticrypt
+backtesting

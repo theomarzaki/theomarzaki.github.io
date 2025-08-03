@@ -5,6 +5,7 @@ from price_prediction import train, test, predict, data_manipulation
 from price_prediction.networks.lstm import LSTMRegressor
 from indicators import indicators
 from datetime import datetime, timedelta
+from backtrack.backtrack import BackTestStrategies
 
 # TICKERS = ["XRP-USD", "BTC-USD", "ETH-USD", "SOL-USD"]
 # KRAKEN_TICKERS = ["XRPUSD", "XBTUSD", "ETHUSD", "SOLUSD"]
@@ -20,6 +21,7 @@ if __name__ == "__main__":
         print(F"Ticker: {yf_ticker}")
         ticker.setTickers(yf_ticker, kraken_ticker)
 
+    model = LSTMRegressor(input_dim=INPUT_DIM)
     indicators = indicators.Indicators(kwargs=ticker.getTickers())
     indicators.fetch_data(local=False)
     indicators.make_technical_indicator()
@@ -29,8 +31,6 @@ if __name__ == "__main__":
     indicators.make_sentiment_indicators()
 
     data_manipulation.manipulate_data()
-
-    model = LSTMRegressor(input_dim=INPUT_DIM)
 
     train.train(model)
 
@@ -43,3 +43,6 @@ if __name__ == "__main__":
 
     verdict = verdict.GiveVerdict(df.copy())
     verdict.to_csv('data/verdict.csv')
+
+    # backtest = BackTestStrategies()
+    # backtest.backtest_lstm()
