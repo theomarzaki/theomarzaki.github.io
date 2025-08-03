@@ -23,33 +23,33 @@ def colorize(value):
 
 col1, col2 = st.columns(2)
 
-card_style = """
-        border-radius: 12px;
-        padding: 1rem 1.2rem;
-        text-align: center;
-        box-shadow: 0 3px 5px rgba(0,0,0,0.08);
-        max-width: 250px;
-        margin: auto;
-    """
-
-heading_style = "margin-bottom: 0.3rem; font-size: 1.2rem; font-weight: 700;"
-value_style = "font-size: 1.8rem; font-weight: 800;"
-
 with col1:
     pnl_bg = colorize(stats["PnL"])
     st.markdown(f"""
-        <div style='background-color: {pnl_bg}; {card_style}'>
-            <h3 style='{heading_style}'>PnL</h3>
-            <span style='{value_style}'>{stats["PnL"]:,.2f}</span>
+        <div style='
+            background-color: {pnl_bg};
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        '>
+            <h3 style='margin-bottom: 0.5rem;'>PnL</h3>
+            <span style='font-size: 3rem; font-weight: 800;'>{stats["PnL"]:,.2f}</span>
         </div>
     """, unsafe_allow_html=True)
 
 with col2:
     ret_bg = colorize(stats["Return (%)"])
     st.markdown(f"""
-        <div style='background-color: {ret_bg}; {card_style}'>
-            <h3 style='{heading_style}'>Return (%)</h3>
-            <span style='{value_style}'>{stats["Return (%)"]:,.2f}%</span>
+        <div style='
+            background-color: {ret_bg};
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        '>
+            <h3 style='margin-bottom: 0.5rem;'>Return (%)</h3>
+            <span style='font-size: 3rem; font-weight: 800;'>{stats["Return (%)"]:,.2f}%</span>
         </div>
     """, unsafe_allow_html=True)
 
