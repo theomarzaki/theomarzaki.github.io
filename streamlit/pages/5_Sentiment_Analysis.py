@@ -2,7 +2,7 @@ import streamlit as st
 from ui.sidebar import render_sidebar
 import pandas as pd
 import plotly.graph_objects as go
-from datetime import datetime
+from datetime import datetime, timedelta
 
 render_sidebar()
 
@@ -16,14 +16,12 @@ df = pd.read_csv('data/merged_indicators.csv')
 # Make sure Date is datetime
 df['Date'] = pd.to_datetime(df['Date'])
 
-# Sort by Date
-df = df.sort_values('Date')
+current_time = datetime.utcnow()
+start_of_week_previous = (current_time - timedelta(days=30)).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+start_of_week_ahead = (current_time).replace(hour=0, minute=0, second=0, microsecond=0).strftime('%Y-%m-%d')
+df = df[(df['Date'] > start_of_week_previous) & (df['Date'] <= start_of_week_ahead)]
+df = df.drop_duplicates(subset=['Date'])
 
-# Get today's date (no time)
-today = pd.to_datetime(datetime.today().date())
-
-# Filter out future rows
-df = df[df['Date'] <= today]
 
 # Create figure with secondary y-axis
 fig = go.Figure()

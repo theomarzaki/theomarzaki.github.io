@@ -56,6 +56,9 @@ fig.update_layout(
     bargap=0.05
 )
 
+st.divider()
+
+
 st.plotly_chart(fig, use_container_width=True)
 
 # --- Display Recent Snapshots ---
