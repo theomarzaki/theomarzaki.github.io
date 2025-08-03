@@ -35,4 +35,4 @@ html_path = "backtrack/plots/backtest_lstm.html"
 with open(html_path, "r") as f:
     html = f.read()
 st.subheader("Equity Curve")
-st.components.v1.html(html, height=600, scrolling=True)
+st.components.v1.html(html, height=800, scrolling=False)
