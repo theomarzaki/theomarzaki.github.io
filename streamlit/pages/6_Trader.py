@@ -42,20 +42,15 @@ for i, (label, value) in enumerate(cards):
     with cols[i % 3]:
         st.markdown(f"""
             <div style='
-                background-color: #f9f9f9;
-                border-radius: 8px;
-                padding: 1rem;
-                box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                background-color: {bg_color};
+                border-radius: 12px;
+                padding: 1rem 1.5rem;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+                color: #212529;
+                margin-bottom: 1rem;
             '>
-                <div style='font-weight: 600; font-size: 1.1rem; margin-bottom: 0.25rem;'>{label}</div>
-                <div style='
-                    background-color: {bg_color};
-                    padding: 0.3rem 0.8rem;
-                    border-radius: 12px;
-                    font-size: 1.3rem;
-                    font-weight: 700;
-                    width: fit-content;
-                '>{value:,.2f}</div>
+                <div style='font-weight: 700; font-size: 1.1rem; margin-bottom: 0.3rem;'>{label}</div>
+                <div style='font-size: 1.5rem; font-weight: 800;'>{value:,.2f}</div>
             </div>
         """, unsafe_allow_html=True)
 
