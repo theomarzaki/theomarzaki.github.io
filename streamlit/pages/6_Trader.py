@@ -12,22 +12,46 @@ summary_path = "backtrack/summary/stats_lstm.json"
 with open(summary_path, "r") as f:
     stats = json.load(f)
 
-# Metric cards in grid
-cols = st.columns(3)
-cards = [
-    ("Initial Cash", stats["Initial Cash"]),
-    ("Final Equity", stats["Final Equity"]),
-    ("PnL", stats["PnL"]),
-    ("Return (%)", stats["Return (%)"]),
-    ("Sharpe Ratio", stats["Sharpe Ratio"]),
-    ("Max Drawdown (%)", stats["Max Drawdown (%)"]),
-    ("Win Rate (%)", stats["Win Rate (%)"]),
-    ("Total Trades", stats["Total Trades"]),
-]
+    def colorize(label, value):
+        if label in ["PnL", "Return (%)"]:
+            return "green" if value > 0 else "red"
+        elif label == "Sharpe Ratio":
+            return "green" if value >= 1 else ("orange" if value > 0 else "red")
+        elif label == "Max Drawdown (%)":
+            return "red" if value > 20 else "orange" if value > 10 else "green"
+        elif label == "Win Rate (%)":
+            return "green" if value >= 50 else "orange"
+        else:
+            return "gray"
 
-for i, (label, value) in enumerate(cards):
-    with cols[i % 3]:
-        st.metric(label, f"{value:,.2f}" if isinstance(value, float) else str(value))
+    # Metric cards
+    cols = st.columns(3)
+    cards = [
+        ("Initial Cash", stats["Initial Cash"]),
+        ("Final Equity", stats["Final Equity"]),
+        ("PnL", stats["PnL"]),
+        ("Return (%)", stats["Return (%)"]),
+        ("Sharpe Ratio", stats["Sharpe Ratio"]),
+        ("Max Drawdown (%)", stats["Max Drawdown (%)"]),
+        ("Win Rate (%)", stats["Win Rate (%)"]),
+        ("Total Trades", stats["Total Trades"]),
+    ]
+
+    for i, (label, value) in enumerate(cards):
+        color = colorize(label, value)
+        with cols[i % 3]:
+            st.markdown(f"""
+                <div style='
+                    background-color: #f9f9f9;
+                    border-left: 5px solid {color};
+                    padding: 1rem;
+                    border-radius: 8px;
+                    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+                '>
+                    <div style='font-weight: bold; font-size: 1.1rem;'>{label}</div>
+                    <div style='font-size: 1.3rem;'>{value:,.2f}</div>
+                </div>
+            """, unsafe_allow_html=True)
 
 st.divider()
 
