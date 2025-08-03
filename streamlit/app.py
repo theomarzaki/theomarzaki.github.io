@@ -53,7 +53,7 @@ with col2:
         </div>
     """, unsafe_allow_html=True)
 
-st.markdown("[See more at Backtesting page](#Trader)")
+st.markdown("See more metrics at Asset Trader page")
 
 st.divider()
 
