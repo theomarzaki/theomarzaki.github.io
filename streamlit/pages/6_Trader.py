@@ -6,7 +6,7 @@ render_sidebar()
 
 st.set_page_config(layout="wide")
 
-st.title("Performance of Trading Agent")
+st.title("Backtesting Trading Agent")
 
 summary_path = "backtrack/summary/stats_lstm.json"
 with open(summary_path, "r") as f:
