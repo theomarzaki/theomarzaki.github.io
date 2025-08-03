@@ -6,7 +6,7 @@ render_sidebar()
 
 st.set_page_config(layout="wide")
 
-st.title("Trading Agent")
+st.title("Performance of Trading Agent")
 
 summary_path = "backtrack/summary/stats_lstm.json"
 with open(summary_path, "r") as f:
@@ -59,5 +59,5 @@ st.divider()
 html_path = "backtrack/plots/backtest_lstm.html"
 with open(html_path, "r") as f:
     html = f.read()
-st.subheader("quity Curve")
+st.subheader("Equity Curve")
 st.components.v1.html(html, height=800, scrolling=False)
