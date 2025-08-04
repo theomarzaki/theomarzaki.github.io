@@ -13,50 +13,50 @@ render_sidebar()
 st.set_page_config(layout="wide")
 
 
-with open("backtrack/summary/stats_lstm.json", "r") as f:
-    stats = json.load(f)
+# with open("backtrack/summary/stats_lstm.json", "r") as f:
+#     stats = json.load(f)
 
 
-def colorize(value):
-    return "#d4f4dd" if value > 0 else "#f8d7da"  # green or red background
+# def colorize(value):
+#     return "#d4f4dd" if value > 0 else "#f8d7da"  # green or red background
 
 
-col1, col2 = st.columns(2)
+# col1, col2 = st.columns(2)
 
-with col1:
-    pnl_bg = colorize(stats["PnL"])
-    st.markdown(f"""
-        <div style='
-            background-color: {pnl_bg};
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        '>
-            <h3 style='margin-bottom: 0.5rem;'>PnL</h3>
-            <span style='font-size: 3rem; font-weight: 800;'>{stats["PnL"]:,.2f}</span>
-        </div>
-    """, unsafe_allow_html=True)
+# with col1:
+#     pnl_bg = colorize(stats["PnL"])
+#     st.markdown(f"""
+#         <div style='
+#             background-color: {pnl_bg};
+#             border-radius: 16px;
+#             padding: 2rem;
+#             text-align: center;
+#             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+#         '>
+#             <h3 style='margin-bottom: 0.5rem;'>PnL</h3>
+#             <span style='font-size: 3rem; font-weight: 800;'>{stats["PnL"]:,.2f}</span>
+#         </div>
+#     """, unsafe_allow_html=True)
 
-with col2:
-    ret_bg = colorize(stats["Return (%)"])
-    st.markdown(f"""
-        <div style='
-            background-color: {ret_bg};
-            border-radius: 16px;
-            padding: 2rem;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        '>
-            <h3 style='margin-bottom: 0.5rem;'>Return (%)</h3>
-            <span style='font-size: 3rem; font-weight: 800;'>{stats["Return (%)"]:,.2f}%</span>
-        </div>
-    """, unsafe_allow_html=True)
+# with col2:
+#     ret_bg = colorize(stats["Return (%)"])
+#     st.markdown(f"""
+#         <div style='
+#             background-color: {ret_bg};
+#             border-radius: 16px;
+#             padding: 2rem;
+#             text-align: center;
+#             box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+#         '>
+#             <h3 style='margin-bottom: 0.5rem;'>Return (%)</h3>
+#             <span style='font-size: 3rem; font-weight: 800;'>{stats["Return (%)"]:,.2f}%</span>
+#         </div>
+#     """, unsafe_allow_html=True)
 
-st.markdown("")
-st.markdown("See more metrics at Asset Trader page")
+# st.markdown("")
+# st.markdown("See more metrics at Asset Trader page")
 
-st.divider()
+# st.divider()
 
 
 def signal_label(signal):
