@@ -57,3 +57,22 @@ def GiveVerdict(df):
     verdict_df = pd.concat([pd.DataFrame([['Final', changeScoreToVerdict(total_score), total_score]], columns=verdict_df.columns), verdict_df])
     verdict_df.set_index('Indicator')
     return verdict_df
+
+
+def GiveVerdictBackTest(df):
+
+    technical_score = technical.make_decisions(df.copy())
+    market_score = market.make_decisions(df.copy())
+    economic_score = economic.make_decisions(df.copy())
+
+    technical_verdict = getWeightedVerdictFromScore(technical_score)
+    market_verdict = getWeightedVerdictFromScore(market_score)
+    economic_verdict = getWeightedVerdictFromScore(economic_score)
+
+    verdict_df = pd.DataFrame(columns=['Indicator', 'Verdict', 'Score'])
+    verdict_df = pd.concat([pd.DataFrame([['Technical', changeScoreToVerdict(technical_verdict), technical_verdict]], columns=verdict_df.columns), verdict_df])
+    verdict_df = pd.concat([pd.DataFrame([['Market', changeScoreToVerdict(market_verdict), market_verdict]], columns=verdict_df.columns), verdict_df])
+    verdict_df = pd.concat([pd.DataFrame([['Economic', changeScoreToVerdict(economic_verdict), economic_verdict]], columns=verdict_df.columns), verdict_df])
+
+    total_score = technical_verdict * weights['Technical'] + market_verdict * weights['Market'] + economic_verdict * weights['Economic']
+    return changeScoreToVerdict(total_score)

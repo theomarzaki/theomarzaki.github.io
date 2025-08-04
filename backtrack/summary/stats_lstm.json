@@ -1,10 +1,10 @@
 {
   "Initial Cash": 10000,
-  "Final Equity": 4090462.5371428593,
-  "PnL": 4080462.5371428593,
-  "Return (%)": 40804.62537142859,
-  "Sharpe Ratio": 0.5658627247462542,
-  "Max Drawdown (%)": -83.3990088221858,
-  "Win Rate (%)": 100.0,
-  "Total Trades": 1
+  "Final Equity": 0.0,
+  "PnL": -10000.0,
+  "Return (%)": -100.0,
+  "Sharpe Ratio": 0.0,
+  "Max Drawdown (%)": -100.0,
+  "Win Rate (%)": 53.383458646616546,
+  "Total Trades": 133
 }

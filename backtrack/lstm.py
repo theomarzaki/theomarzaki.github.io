@@ -3,6 +3,7 @@ import torch
 import numpy as np
 import joblib
 from price_prediction.networks.lstm import LSTMRegressor
+from decision.score_based.verdict import GiveVerdictBackTest
 
 
 class LSTMStrategy(Strategy):
@@ -10,6 +11,7 @@ class LSTMStrategy(Strategy):
     def init(self):
         self.WINDOW = 7
         self.INPUT_DIM = 39
+        self.initial_cash = 10000
 
         self.lstm_model = LSTMRegressor(input_dim=self.INPUT_DIM)
         self.lstm_model.load_state_dict(torch.load('artifacts/model.save'))
@@ -36,9 +38,16 @@ class LSTMStrategy(Strategy):
             return
 
         predicted_price = self.predict_next()
-        current_price = self.data.Close[-1]
 
-        if predicted_price > current_price and not self.position:
-            self.buy()
-        elif predicted_price < current_price and self.position:
-            self.sell()
+        df = self.get_trader_window().copy()
+        df.iloc[-1].Close = predicted_price
+
+        decision = GiveVerdictBackTest(df)
+
+        if decision == "Buy":
+            size = min(0.1, 0.1 * (self.equity / self.initial_cash))
+            self.buy(size=size)
+
+        elif decision == "Sell" and self.position:
+            size = min(0.1, 0.1 * (self.equity / self.initial_cash))
+            self.sell(size=size)
