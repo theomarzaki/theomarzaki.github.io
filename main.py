@@ -44,5 +44,5 @@ if __name__ == "__main__":
     verdict = verdict.GiveVerdict(df.copy())
     verdict.to_csv('data/verdict.csv')
 
-    # backtest = BackTestStrategies()
-    # backtest.backtest_lstm()
+    backtest = BackTestStrategies()
+    backtest.backtest_lstm()
