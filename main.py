@@ -17,32 +17,33 @@ INPUT_DIM = 39
 
 
 if __name__ == "__main__":
-    for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):
-        print(F"Ticker: {yf_ticker}")
-        ticker.setTickers(yf_ticker, kraken_ticker)
+    # for yf_ticker, kraken_ticker in zip(TICKERS, KRAKEN_TICKERS):
+    #     print(F"Ticker: {yf_ticker}")
+    #     ticker.setTickers(yf_ticker, kraken_ticker)
 
-    model = LSTMRegressor(input_dim=INPUT_DIM)
-    indicators = indicators.Indicators(kwargs=ticker.getTickers())
-    indicators.fetch_data(local=False)
-    indicators.make_technical_indicator()
-    indicators.make_market_indicator()
-    indicators.make_economic_indicator()
-    indicators.make_risk_indicators()
-    indicators.make_sentiment_indicators()
+    # model = LSTMRegressor(input_dim=INPUT_DIM)
+    # indicators = indicators.Indicators(kwargs=ticker.getTickers())
+    # indicators.fetch_data(local=False)
+    # indicators.make_technical_indicator()
+    # indicators.make_market_indicator()
+    # indicators.make_economic_indicator()
+    # indicators.make_risk_indicators()
+    # indicators.make_sentiment_indicators()
 
-    data_manipulation.manipulate_data()
+    # data_manipulation.manipulate_data()
 
-    train.train(model)
+    # train.train(model)
 
-    test.test(model)
+    # test.test(model)
 
-    predict.predict(model)
+    # predict.predict(model)
 
-    df = indicators.technical_indicator.update_technical_indicators()
-    df = indicators.risk_indicator.update_risk_indicators()
+    # df = indicators.technical_indicator.update_technical_indicators()
+    # df = indicators.risk_indicator.update_risk_indicators()
 
-    verdict = verdict.GiveVerdict(df.copy())
-    verdict.to_csv('data/verdict.csv')
+    # verdict = verdict.GiveVerdict(df.copy())
+    # verdict.to_csv('data/verdict.csv')
 
     backtest = BackTestStrategies()
-    backtest.backtest_lstm()
+    backtest.backtest_dca()
+    # backtest.backtest_lstm()
