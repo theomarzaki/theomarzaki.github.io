@@ -60,4 +60,4 @@ html_path = "backtrack/plots/backtest_dca.html"
 with open(html_path, "r") as f:
     html = f.read()
 st.subheader("Equity Curve")
-st.components.v1.html(html, height=800, scrolling=False)
+st.components.v1.html(html, height=800, width=800, scrolling=False)
